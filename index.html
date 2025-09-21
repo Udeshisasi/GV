@@ -174,6 +174,94 @@
                 display: none !important;
             }
         }
+
+        .hover-scale {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .hover-scale:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(4, 52, 24, 0.15);
+        }
+        .circular-image {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .gradient-bg {
+            background: linear-gradient(135deg, #043418 0%, #02190d 100%);
+        }
+        .sidebar-item.active {
+            border-left: 4px solid #b6d645;
+            background-color: rgba(182, 214, 69, 0.1);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #b6d645;
+            border-radius: 3px;
+        }
+        
+        .price-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .price-item:last-child {
+            border-bottom: none;
+        }
+        .total-price {
+            background: linear-gradient(135deg, #043418 0%, #02190d 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+        .service-category {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed #ddd;
+        }
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .hidden {
+            display: none;
+        }
+        .quote-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        @media (max-width: 768px) {
+            .quote-actions {
+                flex-direction: column;
+            }
+        }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500&family=Sarabun:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
@@ -218,6 +306,10 @@
                         <button onclick="showSection('buffet')" class="sidebar-item flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors hover:bg-hotel-green/50">
                             <i class="fas fa-utensils mr-3 text-hotel-lime"></i>
                             Buffet
+                        </button>
+                        <button onclick="showSection('Dj')" class="sidebar-item flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors hover:bg-hotel-green/50">
+                            <i class="fas fa-utensils mr-3 text-hotel-lime"></i>
+                            DJ
                         </button>
                         <button onclick="showSection('calculator')" class="sidebar-item flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors hover:bg-hotel-green/50">
                             <i class="fas fa-calculator mr-3 text-hotel-lime"></i>
@@ -295,6 +387,10 @@
                                 <i class="fas fa-utensils mr-3 text-hotel-lime"></i>
                                 Buffet
                             </button>
+                            <button onclick="showSection('Dj'); toggleMobileMenu()" class="sidebar-item flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors hover:bg-hotel-green/50">
+                                <i class="fas fa-utensils mr-3 text-hotel-lime"></i>
+                                DJ
+                            </button>
                             <button onclick="showSection('calculator'); toggleMobileMenu()" class="sidebar-item flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors hover:bg-hotel-green/50">
                                 <i class="fas fa-calculator mr-3 text-hotel-lime"></i>
                                 Price Calculator
@@ -309,7 +405,7 @@
                 <!-- Dashboard Section -->
                 <div id="dashboard-section" class="section hidden animate-fade-in">
                     <div class="video-container">
-                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/QhByBAOLceg?si=C7neUL33d_xUhqOD" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/fCmIzZwZZGw?si=M6qKRYSARvKDN55-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
                 </div>  
 
@@ -469,7 +565,7 @@
                             <div class="bg-hotel-lime text-hotel-green text-xs font-bold py-2 px-3 text-center"></div>
                             <div class="p-6">
                                 <h3 class="text-xl font-bold text-hotel-green mb-2">Menu 04</h3>
-                                <div class="text-2xl font-bold text-hotel-green mb-3">Rs. 4350/-</div>
+                                <div class="text-2xl font-bold text-hotel-green mb-3">Rs. 4,850/-</div>
                                 <p class="text-gray-600 text-sm mb-4">The ultimate luxury experience with all premium items</p>
                                 
                                 <div class="mb-4">
@@ -622,18 +718,17 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Party Package 1 -->
                         <div class="bg-white rounded-lg shadow-md overflow-hidden hover-lift">
-                            <div class="bg-purple-100 text-purple-800 text-xs font-bold py-2 px-3 text-center"></div>
+                            <div class="bg-hotel-lime text-hotel-green text-xs font-bold py-2 px-3 text-center"></div>
                             <div class="p-6">
-                                <h3 class="text-xl font-bold text-purple-700 mb-2">Menu 01 | LUNCH OR DINNER</h3>
-                                <div class="text-2xl font-bold text-purple-700 mb-3">Rs. 1,850/-</div>
+                                <h3 class="text-xl font-bold text-hotel-green mb-2">Menu 01 | LUNCH OR DINNER</h3>
+                                <div class="text-2xl font-bold text-hotel-green mb-3">Rs. 1,850/-</div>
                                 
                                 <div class="mb-4">
-                                    <h4 class="font-semibold text-purple-700 mb-2">Included Items:</h4>
+                                    <h4 class="font-semibold text-hotel-green mb-2">Included Items:</h4>
                                     <div class="grid grid-cols-2 gap-4">  
                                         <ul class="text-sm text-gray-600 space-y-1">
-                                            <li>• Welcome Juice</li>
+                                            <li>• WELCOME DRINK</li>
                                             <li>• VEG / FRIED RICE</li>
-                                            <li>• Snacks (05)</li>
                                             <li>• VEG / FRIED NOODLES</li>
                                             <li>• CHICKEN RED CURRY</li>
                                             <li>• POTATO TEMPERED </li>
@@ -650,23 +745,23 @@
                                         </div> -->
                                     </div>     
                                 </div>
-                                <div class="border-b my-4" style="border-color: #7c3aed; border-width: 1px;"></div>
+                                <div class="border-b my-4" style="border-color: #b6d645; border-width: 1px;"></div>
                                 
                             </div>
                         </div>
 
                         <!-- Party Package 2 -->
                         <div class="bg-white rounded-lg shadow-md overflow-hidden hover-lift">
-                            <div class="bg-orange-100 text-orange-800 text-xs font-bold py-2 px-3 text-center"></div>
+                            <div class="bg-hotel-lime text-hotel-green text-xs font-bold py-2 px-3 text-center"></div>
                             <div class="p-6">
-                                <h3 class="text-xl font-bold text-orange-700 mb-2">Menu 02 | LUNCH OR DINNER</h3>
-                                <div class="text-2xl font-bold text-orange-700 mb-3">Rs. 1,950/-</div>
+                                <h3 class="text-xl font-bold text-hotel-green mb-2">Menu 02 | LUNCH OR DINNER</h3>
+                                <div class="text-2xl font-bold text-hotel-green mb-3">Rs. 1,950/-</div>
                                 
                                 <div class="mb-4">
-                                    <h4 class="font-semibold text-orange-700 mb-2">Included Items:</h4>
-                                    <div class="grid grid-cols-2 gap-4">  
-                                        <ul class="text-sm text-gray-600 space-y-1">
-                                            <li>• Welcome Drinks</li>
+                                    <h4 class="font-semibold text-hotel-green mb-2">Included Items:</h4>
+                                    <div class="grid grid-cols-1 gap-4">  
+                                        <ul class="text-sm text-gray-600 space-y-0">
+                                            <li>• WELCOME DRINK</li>
                                             <li>• PLAIN RICE</li>
                                             <li>• YELLOW RICE / VEGETABLE RICE</li>
                                             <li>• VEG / FRIED NOODLES</li>
@@ -684,21 +779,21 @@
                                         </div> -->
                                     </div>     
                                 </div>
-                                <div class="border-b my-4" style="border-color: #ea580c; border-width: 1px;"></div>
+                                <div class="border-b my-4" style="border-color: #b6d645; border-width: 1px;"></div>
                                 
                             </div>
                         </div>
 
                         <!-- Party Package 3 -->
                         <div class="bg-white rounded-lg shadow-md overflow-hidden hover-lift">
-                            <div class="bg-pink-100 text-pink-800 text-xs font-bold py-2 px-3 text-center"></div>
+                            <div class="bg-hotel-lime text-hotel-green text-xs font-bold py-2 px-3 text-center"></div>
                             <div class="p-6">
-                                <h3 class="text-xl font-bold text-pink-700 mb-2">Menu 03 | DINNER</h3>
-                                <div class="text-2xl font-bold text-pink-700 mb-3">Rs. 1,950</div>
+                                <h3 class="text-xl font-bold text-hotel-green mb-2">Menu 03 | DINNER</h3>
+                                <div class="text-2xl font-bold text-hotel-green mb-3">Rs. 1,950</div>
                                 
                                 <div class="mb-4">
-                                    <h4 class="font-semibold text-pink-700 mb-2">Included Items:</h4>
-                                    <div class="grid grid-cols-2 gap-4">  
+                                    <h4 class="font-semibold text-hotel-green mb-2">Included Items:</h4>
+                                    <div class="grid grid-cols-1 gap-4">  
                                         <ul class="text-sm text-gray-600 space-y-1">
                                             <li>• WELCOME DRINK</li>
                                             <li>• VEG / FRIED NOODLES</li>
@@ -716,21 +811,21 @@
                                         </div> -->
                                     </div>     
                                 </div>
-                                <div class="border-b my-4" style="border-color: #be185d; border-width: 1px;"></div>
+                                <div class="border-b my-4" style="border-color: #b6d645; border-width: 1px;"></div>
                                 
                             </div>
                         </div>
 
                         <!-- Party Package 4 -->
                         <div class="bg-white rounded-lg shadow-md overflow-hidden hover-lift">
-                            <div class="bg-blue-100 text-blue-800 text-xs font-bold py-2 px-3 text-center"></div>
+                            <div class="bg-hotel-lime text-hotel-green text-xs font-bold py-2 px-3 text-center"></div>
                             <div class="p-6">
-                                <h3 class="text-xl font-bold text-blue-700 mb-2">Menu 04 | LUNCH OR DINNER</h3>
-                                <div class="text-2xl font-bold text-blue-700 mb-3">Rs. 2,150/-</div>
+                                <h3 class="text-xl font-bold text-hotel-green mb-2">Menu 04 | LUNCH OR DINNER</h3>
+                                <div class="text-2xl font-bold text-hotel-green mb-3">Rs. 2,150/-</div>
                                 
                                 <div class="mb-4">
-                                    <h4 class="font-semibold text-blue-700 mb-2">Included Items:</h4>
-                                    <div class="grid grid-cols-2 gap-4">  
+                                    <h4 class="font-semibold text-hotel-green mb-2">Included Items:</h4>
+                                    <div class="grid grid-cols-1 gap-4">  
                                         <ul class="text-sm text-gray-600 space-y-1">
                                             <li>• WELCOME DRINK</li>
                                             <li>• PLAIN RICE</li>
@@ -750,21 +845,21 @@
                                         </div> -->
                                     </div>     
                                 </div>
-                                <div class="border-b my-4" style="border-color: #1d4ed8; border-width: 1px;"></div>
+                                <div class="border-b my-4" style="border-color: #b6d645; border-width: 1px;"></div>
                                 
                             </div>
                         </div>
 
                         <!-- Party Package 5 -->
                         <div class="bg-white rounded-lg shadow-md overflow-hidden hover-lift">
-                            <div class="bg-blue-100 text-blue-800 text-xs font-bold py-2 px-3 text-center"></div>
+                            <div class="bg-hotel-lime text-hotel-green text-xs font-bold py-2 px-3 text-center"></div>
                             <div class="p-6">
-                                <h3 class="text-xl font-bold text-blue-700 mb-2">PARTY</h3>
-                                <div class="text-2xl font-bold text-blue-700 mb-3">Rs. 1,750/-</div>
+                                <h3 class="text-xl font-bold text-hotel-green mb-2">PARTY</h3>
+                                <div class="text-2xl font-bold text-hotel-green mb-3">Rs. 1,750/-</div>
                                 
                                 <div class="mb-4">
-                                    <h4 class="font-semibold text-blue-700 mb-2">Included Items:</h4>
-                                    <div class="grid grid-cols-2 gap-4">  
+                                    <h4 class="font-semibold text-hotel-green mb-2">Included Items:</h4>
+                                    <div class="grid grid-cols-1 gap-4">  
                                         <ul class="text-sm text-gray-600 space-y-1">
                                             <li>• WELCOME DRINK</li>
                                             <li>• VEG / FRIED RICE</li>
@@ -779,7 +874,7 @@
                                         </div> -->
                                     </div>     
                                 </div>
-                                <div class="border-b my-4" style="border-color: #1d4ed8; border-width: 1px;"></div>
+                                <div class="border-b my-4" style="border-color: #b6d645; border-width: 1px;"></div>
                                 
                             </div>
                         </div>
@@ -790,15 +885,8 @@
                 <div id="dancing-section" class="section hidden animate-fade-in relative h-full">
                     <div class="dancing-video-title" id="dancing-video-title"></div>
 
-                    
-                    <!-- <div class="dancing-controls-overlay">
-                        <select id="team-dropdown" class="dancing-dropdown-menu" onchange="changeDancingTeam(this.value)">
-                            <option value="wes-dance">Wes Dance</option>
-                            <option value="item-dance">Item Dance</option>
-                        </select>
-                    </div> -->
                     <div class="video-container">
-                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/GSkV8u1slJk?si=m6q1HYInU9J9o_nO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/T-slynXtXD4?si=OsLZdUjVCkzXm-V1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
                 </div>
 
@@ -807,7 +895,7 @@
                     <div class="vocal-video-title" id="vocal-video-title"></div>
                     
                     <div class="video-container">
-                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/Z3bltF8trG4?si=QY4KlZxXFE5kREUL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/m3H2RTdaN-I?si=SGENUbrDelPsIDQA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
                 </div>  
 
@@ -815,7 +903,7 @@
                 <div id="Champagne-section" class="section hidden animate-fade-in relative h-full">
 
                     <div class="video-container">
-                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/cqh5L4y1pnQ?si=g-fQItcfpiXmVHsj" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/728k6RKvLRU?si=dbd3OKM9BvuJYx4p" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
                 </div>
 
@@ -823,129 +911,118 @@
                 <div id="kirikala-section" class="section hidden animate-fade-in relative h-full">
 
                     <div class="video-container">
-                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/A3hf9Yv-A34?si=QJwHJLmj2G4DJHtW" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/REiSE9M-88U?si=iyepgBB0H56aBzj9" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
                 </div>
 
                 <!-- Buffet Section -->
                 <div id="buffet-section" class="section hidden animate-fade-in relative h-full">
                     <div class="video-container">
-                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/pM3K7ovAx0M?si=lZsoag-OyN2dBVoE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/qORA0F2YZ_4?si=3Ex6G3DX_3fp1r-i" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <!-- Dj Section -->
+                <div id="Dj-section" class="section hidden animate-fade-in relative h-full">
+                    <div class="video-container">
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/lc68xS8AF-0?si=GlBhttNU6O4ODCTh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
                 </div>
 
                 <!-- Price Calculator Section -->
-                <div id="calculator-section" class="section animate-fade-in p-6">
-                    <div class="mb-6">
-                        <h2 class="text-2xl font-bold text-hotel-dark">Wedding Package Calculator</h2>
-                        <p class="text-gray-600">Calculate estimated costs for wedding packages</p>
-                    </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div class="lg:col-span-2">
-                            <div class="bg-white rounded-xl shadow-sm p-6 hover-scale">
-                                <h3 class="text-lg font-semibold text-hotel-green mb-4">Event Details</h3>
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Event Type</label>
-                                        <select id="event-type" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-hotel-lime focus:border-hotel-lime" onchange="handleEventTypeChange()">
-                                            <option value="wedding">Wedding</option>
-                                            <option value="anniversary">Anniversary</option>
-                                            <option value="engagement">Engagement</option>
-                                            <option value="party">Party</option>
-                                            <option value="halal">Halal Wedding</option>
-                                        </select>
+                <div>
+                    <div class="container mx-auto p-4">
+                        <div class="mb-6">
+                            <h2 class="text-2xl font-bold text-hotel-dark">Wedding Package Calculator</h2>
+                            <p class="text-gray-600">Calculate estimated costs for wedding packages</p>
+                        </div>
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                            <div class="lg:col-span-2">
+                                <div class="bg-white rounded-xl shadow-sm p-6 hover-scale mb-6">
+                                    <h2 class="text-2xl font-bold text-hotel-dark mb-6">Event Details</h2>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Event Type</label>
+                                            <select id="event-type" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-hotel-lime focus:border-hotel-lime" onchange="handleEventTypeChange()">
+                                                <option value="wedding">Wedding</option>
+                                                <option value="anniversary">Anniversary</option>
+                                                <option value="engagement">Engagement</option>
+                                                <option value="party">Party</option>
+                                                <option value="halal">Halal Wedding</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Number of Guests</label>
+                                            <input type="number" id="guests" min="1" value="100" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-hotel-lime focus:border-hotel-lime" onchange="handleGuestCountChange()">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Event Date</label>
+                                            <input type="date" id="event-date" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-hotel-lime focus:border-hotel-lime">
+                                        </div>
+                                        <div id="hall-selection-container">
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Hall Selection</label>
+                                            <select id="hall-selection" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-hotel-lime focus:border-hotel-lime" onchange="calculatePrice()">
+                                                <option value="prince">Prince Banquet Hall</option>
+                                                <option value="angelo">Angelo Banquet Hall</option>
+                                                <option value="ru">Ru Banquet Hall</option>
+                                            </select>
+                                        </div>
+                                        <div id="package-type-container" class="md:col-span-2">
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">Package Type</label>
+                                            <select id="package-type" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-hotel-lime focus:border-hotel-lime" onchange="handlePackageChange()">
+                                                <option value="3250">Banquet Hall Menu 01 - Rs. 3,250</option>
+                                                <option value="3750">Banquet Hall Menu 02 - Rs. 3,750</option>
+                                                <option value="4250">Banquet Hall Menu 03 - Rs. 4,250</option>
+                                                <option value="4850">Banquet Hall Menu 04 - Rs. 4,850</option>
+                                                <option value="5800">All-Inclusive Package - Rs. 5,800</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Event Date</label>
-                                        <input type="date" id="event-date" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-hotel-lime focus:border-hotel-lime" onchange="calculatePrice()">
-                                    </div>
-                                    <div>
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Number of Guests</label>
-                                        <input type="number" id="guests" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-hotel-lime focus:border-hotel-lime" placeholder="Enter number of guests" oninput="calculatePrice()">
-                                    </div>
-                                    <div id="hall-selection-container">
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Hall Selection</label>
-                                        <select id="hall-selection" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-hotel-lime focus:border-hotel-lime" onchange="calculatePrice()">
-                                            <option value="prince">Prince Banquet Hall</option>
-                                            <option value="angelo">Angelo Banquet Hall</option>
-                                            <option value="ru">Ru Banquet Hall</option>
-                                        </select>
-                                    </div>
-                                    <div id="package-type-container" class="md:col-span-2">
-                                        <label class="block text-sm font-medium text-gray-700 mb-2">Package Type</label>
-                                        <select id="package-type" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-hotel-lime focus:border-hotel-lime" onchange="handlePackageChange()">
-                                            <option value="3250">Banquet Hall Menu 01 - Rs. 3,250</option>
-                                            <option value="3750">Banquet Hall Menu 02 - Rs. 3,750</option>
-                                            <option value="4250">Banquet Hall Menu 03 - Rs. 4,250</option>
-                                            <option value="4850">Banquet Hall Menu 04 - Rs. 4,850</option>
-                                            <option value="5800">All-Inclusive Package - Rs. 5,800</option>
-                                        </select>
-                                    </div>
+                                    
+                                    
                                 </div>
                                 
-                                <!-- Additional Services Section -->
-                                <div id="additional-services-section">
-                                    <h3 class="text-lg font-semibold text-hotel-green mt-6 mb-4">Additional Services</h3>
-                                    <div class="space-y-3" id="additional-services-container">
-                                        <!-- Services will be populated based on event type -->
-                                    </div>
-                                </div>
-                                
-                                <div class="mt-6">
-                                    <button onclick="calculatePrice()" class="w-full bg-hotel-lime text-hotel-green py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-colors">
-                                        <i class="fas fa-calculator mr-2"></i> Calculate Total
+                                <div class="bg-white rounded-xl shadow-sm p-6 hover-scale" id="additional-services-section">
+                                    <h2 class="text-2xl font-bold text-hotel-dark mb-6">Additional Services</h2>
+                                    <div id="additional-services-container"></div>
+                                    <button class="w-full mt-6 bg-hotel-lime text-hotel-green py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-colors" onclick="calculatePrice()">
+                                        <i class="fas fa-calculator mr-2"></i> Calculate Price
                                     </button>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div>
-                            <div class="bg-white rounded-xl shadow-sm p-6 sticky top-6 hover-scale">
-                                <h3 class="text-lg font-semibold text-hotel-green mb-4">Price Breakdown</h3>
-                                <div id="price-breakdown" class="space-y-4">
-                                    <div class="bg-gray-50 p-4 rounded-lg">
-                                        <p class="text-gray-500 text-center">Enter event details to see price breakdown</p>
+                            
+                            <div>
+                                <div class="bg-white rounded-xl shadow-sm p-6 sticky top-6 hover-scale">
+                                    <h2 class="text-2xl font-bold text-hotel-dark mb-6">Price Breakdown</h2>
+                                    <div id="price-breakdown">
+                                        <div class="bg-gray-50 p-4 rounded-lg">
+                                            <p class="text-gray-500 text-center">Enter event details and click Calculate Price</p>
+                                        </div>
                                     </div>
-                                </div>
-                                
-                                <div class="mt-6 hidden" id="quote-actions">
-                                    <button class="w-full bg-hotel-green text-white py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-colors mb-3" onclick="generateQuote()">
-                                        <i class="fas fa-file-invoice-dollar mr-2"></i> Generate Quote
-                                    </button>
-                                    <button class="w-full border border-hotel-green text-hotel-green py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors" onclick="shareViaWhatsApp()">
-                                        <i class="fab fa-whatsapp mr-2"></i> Share via WhatsApp
-                                    </button>
+                                    
+                                    <div id="quote-actions" class="quote-actions hidden">
+                                        <button class="btn flex-1 bg-hotel-green text-white py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-colors" onclick="generateQuote()">
+                                            <i class="fas fa-file-invoice-dollar mr-2"></i> Generate Quote
+                                        </button>
+                                        <button class="btn flex-1 bg-green-600 text-white py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-colors" onclick="shareViaWhatsApp()">
+                                            <i class="fab fa-whatsapp mr-2"></i> WhatsApp
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Quote Modal -->
-                    <div id="quote-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
-                        <div class="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-                            <div class="p-6">
-                                <div class="flex justify-between items-center mb-6">
-                                    <h3 class="text-2xl font-bold text-hotel-green">Package Quote</h3>
-                                    <button onclick="closeQuoteModal()" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
-                                </div>
-                                
-                                <div id="quote-content" class="space-y-4">
-                                    <!-- Quote content will be generated here -->
-                                </div>
-                                
-                                <div class="mt-6 flex gap-3">
-                                    <button onclick="downloadPDF()" class="flex-1 bg-red-600 text-white py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-colors">
-                                        <i class="fas fa-download mr-2"></i> Download PDF
-                                    </button>
-                                    <button onclick="shareViaWhatsApp()" class="flex-1 bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-colors">
-                                        <i class="fab fa-whatsapp mr-2"></i> Share via WhatsApp
-                                    </button>
-                                </div>
+                    
+                    <div id="quote-modal" class="modal hidden">
+                        <div class="modal-content">
+                            <div id="quote-content"></div>
+                            <div class="mt-6 flex gap-3">
+                                <button class="flex-1 bg-gray-300 text-gray-700 py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-colors" onclick="closeQuoteModal()">Close</button>
+                                <button class="flex-1 bg-hotel-green text-white py-3 rounded-lg font-semibold hover:bg-opacity-90 transition-colors" onclick="downloadPDF()">Download PDF</button>
                             </div>
                         </div>
                     </div>
-                </div> 
+                </div>
             </main>
         </div>
     </div>
@@ -1125,6 +1202,33 @@
     <script>
     let currentCalculation = null;
 
+    // Regular packages
+    const regularPackages = [
+        { value: '3250', label: 'Banquet Hall Menu 01 - Rs. 3,250' },
+        { value: '3750', label: 'Banquet Hall Menu 02 - Rs. 3,750' },
+        { value: '4250', label: 'Banquet Hall Menu 03 - Rs. 4,250' },
+        { value: '4850', label: 'Banquet Hall Menu 04 - Rs. 4,850' },
+        { value: '5800', label: 'All-Inclusive Package - Rs. 5,800' }
+    ];
+
+    // Banquet Hall Special Package pricing
+    const specialPackagePricing = {
+        // For 150-200 guests
+        "150-200": [
+            { value: '5300', label: 'Banquet Hall Special Menu 01 - Rs. 5,300' },
+            { value: '6300', label: 'Banquet Hall Special Menu 02 - Rs. 6,300' },
+            { value: '6800', label: 'Banquet Hall Special Menu 03 - Rs. 6,800' },
+            { value: '7300', label: 'Banquet Hall Special Menu 04 - Rs. 7,300' }
+        ],
+        // For 200+ guests
+        "200+": [
+            { value: '4800', label: 'Banquet Hall Special Menu 01 - Rs. 4,800' },
+            { value: '5800', label: 'Banquet Hall Special Menu 02 - Rs. 5,800' },
+            { value: '6300', label: 'Banquet Hall Special Menu 03 - Rs. 6,300' },
+            { value: '6800', label: 'Banquet Hall Special Menu 04 - Rs. 6,800' }
+        ]
+    };
+
     // Wedding services
     const weddingServices = [
         { id: 'decorations', name: 'Decorations', price: 35000, checked: true, category: 'services' },
@@ -1152,6 +1256,7 @@
         
         // Extra Dishes
         { id: 'soup-veg', name: 'Cream of Vegetable Soup', price: 300, checked: false, hasQuantity: true, category: 'dishes' },
+        { id: 'soup-veg', name: 'Cream of Vegetable Soup', price: 300, checked: false, hasQuantity: true, category: 'dishes' },
         { id: 'rice-basmathi', name: 'Rice (Basmathi)', price: 150, checked: false, hasQuantity: true, category: 'dishes' },
         { id: 'prawns-dish', name: 'Prawns', price: 350, checked: false, hasQuantity: true, category: 'dishes' },
         { id: 'seafood-mix', name: 'Seafood Mix Deviled', price: 400, checked: false, hasQuantity: true, category: 'dishes' },
@@ -1168,7 +1273,7 @@
     const partyServices = [
         // Bites
         { id: 'bites-chicken', name: 'Chicken (1kg)', price: 3200, checked: false, hasQuantity: true, category: 'bites' },
-        { id: 'bites-pork', name: 'Pork (1kg)', price: 3500, checked: false, hasQuantity: true, category: 'bites' },
+        { id: 'bites-pork', name: 'Pork (1kg)', price: 4000, checked: false, hasQuantity: true, category: 'bites' },
         { id: 'bites-lake-fish', name: 'Lake Fish (1kg)', price: 2800, checked: false, hasQuantity: true, category: 'bites' },
         { id: 'bites-thalapath-fish', name: 'Thalapath Fish (1kg)', price: 4000, checked: false, hasQuantity: true, category: 'bites' },
         { id: 'bites-prawns', name: 'Prawns (1kg)', price: 4000, checked: false, hasQuantity: true, category: 'bites' },
@@ -1223,6 +1328,89 @@
         { value: 'prince+angelo+ru', label: 'All Banquet Halls', price: 580000 }
     ];
 
+    function handleGuestCountChange() {
+        const guests = parseInt(document.getElementById('guests').value) || 0;
+        const eventType = document.getElementById('event-type').value;
+        const packageSelect = document.getElementById('package-type');
+        const hallContainer = document.getElementById('hall-selection-container');
+        
+        // Clear existing options
+        packageSelect.innerHTML = '';
+        
+        // For non-wedding events, use regular packages only
+        if (eventType !== 'wedding' && eventType !== 'halal') {
+            populateRegularPackages(packageSelect);
+            handlePackageChange();
+            calculatePrice();
+            return;
+        }
+        
+        // For halal events, use special handling
+        if (eventType === 'halal') {
+            packageSelect.innerHTML = `<option value="0">Halal Wedding Package</option>`;
+            // Create enhanced hall selection dropdown for halal events
+            hallContainer.innerHTML = `
+                <label class="block text-sm font-medium text-gray-700 mb-2">Hall Selection</label>
+                <select id="halal-hall-selection" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-hotel-lime focus:border-hotel-lime" onchange="calculatePrice()">
+                    <option value="">Select Hall(s)</option>
+                    ${halalHallPricing.map(hall => 
+                        `<option value="${hall.value}">${hall.label}${hall.price > 0 ? ` - Rs. ${hall.price.toLocaleString()}` : ' - Free'}</option>`
+                    ).join('')}
+                </select>
+            `;
+            populateServices(halalServices);
+        }
+        
+        // Add regular packages for wedding events
+        populateRegularPackages(packageSelect);
+        
+        // Add special packages if guests > 150 for wedding events
+        if (guests > 150) {
+            // Add separator
+            const separator = document.createElement('option');
+            separator.disabled = true;
+            separator.textContent = '──────────';
+            packageSelect.appendChild(separator);
+            
+            // Add special package header
+            const header = document.createElement('option');
+            header.disabled = true;
+            header.textContent = 'BANQUET HALL SPECIAL PACKAGES';
+            header.style.fontWeight = 'bold';
+            header.style.color = '#043418';
+            packageSelect.appendChild(header);
+            
+            // Add special packages based on guest count
+            let pricingTier;
+            if (guests >= 200) {
+                pricingTier = specialPackagePricing["200+"];
+            } else {
+                pricingTier = specialPackagePricing["150-200"];
+            }
+            
+            pricingTier.forEach(pkg => {
+                const option = document.createElement('option');
+                option.value = pkg.value;
+                option.textContent = pkg.label;
+                option.classList.add('special-package');
+                packageSelect.appendChild(option);
+            });
+        }
+        
+        // Update services based on selection
+        handlePackageChange();
+        calculatePrice();
+    }
+
+    function populateRegularPackages(selectElement) {
+        regularPackages.forEach(pkg => {
+            const option = document.createElement('option');
+            option.value = pkg.value;
+            option.textContent = pkg.label;
+            selectElement.appendChild(option);
+        });
+    }
+
     function handleEventTypeChange() {
         const eventType = document.getElementById('event-type').value;
         const packageContainer = document.getElementById('package-type-container');
@@ -1239,7 +1427,7 @@
                 <option value="1750">Menu 05 Party - Rs. 1,750</option>
             `;
             hallContainer.style.display = 'none';
-            populateServices(partyServices);
+            populateServices(partyServices, false, true);
         } else if (eventType === 'halal') {
             packageSelect.innerHTML = `<option value="0">Halal Wedding Package</option>`;
             
@@ -1255,13 +1443,8 @@
             `;
             populateServices(halalServices);
         } else {
-            packageSelect.innerHTML = `
-                <option value="3250">Banquet Hall Menu 01 - Rs. 3,250</option>
-                <option value="3750">Banquet Hall Menu 02 - Rs. 3,750</option>
-                <option value="4250">Banquet Hall Menu 03 - Rs. 4,250</option>
-                <option value="4850">Banquet Hall Menu 04 - Rs. 4,850</option>
-                <option value="5800">All-Inclusive Package - Rs. 5,800</option>
-            `;
+            // Reset guest count change handling for wedding events
+            handleGuestCountChange();
             hallContainer.innerHTML = `
                 <label class="block text-sm font-medium text-gray-700 mb-2">Hall Selection</label>
                 <select id="hall-selection" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-hotel-lime focus:border-hotel-lime" onchange="calculatePrice()">
@@ -1271,16 +1454,62 @@
                 </select>
             `;
             hallContainer.style.display = 'block';
-            populateServices(weddingServices);
+            handlePackageChange();
         }
         
         calculatePrice();
     }
 
-    function populateServices(services) {
+    function populateServices(services, showOnlyDishes = false, isParty = false) {
         const container = document.getElementById('additional-services-container');
         container.innerHTML = '';
         
+        // For party events, show all services
+        if (isParty) {
+            // Group services by category
+            const serviceGroups = services.reduce((groups, service) => {
+                if (!groups[service.category]) groups[service.category] = [];
+                groups[service.category].push(service);
+                return groups;
+            }, {});
+
+            // Create sections for each category
+            Object.keys(serviceGroups).forEach(category => {
+                const categoryDiv = document.createElement('div');
+                categoryDiv.className = 'service-category';
+                
+                let categoryTitle = '';
+                if (category === 'services') categoryTitle = 'Additional Services';
+                else if (category === 'bites') categoryTitle = 'Bites Selection';
+                else if (category === 'dishes') categoryTitle = 'Extra Dishes';
+                else if (category === 'bbq') categoryTitle = 'BBQ Items';
+                
+                if (categoryTitle) {
+                    const titleElement = document.createElement('h4');
+                    titleElement.className = 'text-md font-medium text-hotel-green mb-3';
+                    titleElement.textContent = categoryTitle;
+                    categoryDiv.appendChild(titleElement);
+                }
+
+                serviceGroups[category].forEach(service => {
+                    const serviceDiv = document.createElement('div');
+                    serviceDiv.className = 'mb-2';
+                    serviceDiv.innerHTML = `
+                        <label class="flex items-center space-x-3">
+                            <input type="checkbox" id="${service.id}" data-price="${service.price}" class="rounded border-gray-300 text-hotel-lime focus:ring-hotel-lime additional-service" ${service.checked ? 'checked' : ''} onchange="calculatePrice()">
+                            <span class="text-sm font-medium text-gray-700 flex-1">${service.name}${service.price > 0 ? ' (Rs. ' + service.price.toLocaleString() + ')' : ''}</span>
+                            ${service.hasQuantity ? `<input type="number" id="${service.id}-qty" class="w-16 border border-gray-300 rounded px-2 py-1 text-sm" min="1" value="1" onchange="calculatePrice()" placeholder="1">` : ''}
+                        </label>
+                    `;
+                    categoryDiv.appendChild(serviceDiv);
+                });
+                
+                container.appendChild(categoryDiv);
+            });
+            return;
+        }
+        
+        // For non-party events, filter based on showOnlyDishes flag
         // Group services by category
         const serviceGroups = services.reduce((groups, service) => {
             if (!groups[service.category]) groups[service.category] = [];
@@ -1290,6 +1519,9 @@
 
         // Create sections for each category
         Object.keys(serviceGroups).forEach(category => {
+            // Skip bites and services categories if showOnlyDishes is true
+            if (showOnlyDishes && (category === 'bites' || category === 'services')) return;
+            
             const categoryDiv = document.createElement('div');
             categoryDiv.className = 'service-category';
             
@@ -1324,23 +1556,31 @@
     }
 
     function handlePackageChange() {
-        const packageType = document.getElementById('package-type').value;
+        const packageSelect = document.getElementById('package-type');
+        const selectedOption = packageSelect.options[packageSelect.selectedIndex];
+        const isSpecialPackage = selectedOption && selectedOption.classList.contains('special-package');
+        const eventType = document.getElementById('event-type').value;
         const additionalServicesSection = document.getElementById('additional-services-section');
         
-        if (packageType === '5800') {
+        if (packageSelect.value === '5800') {
             additionalServicesSection.style.display = 'none';
             document.querySelectorAll('.additional-service').forEach(service => {
                 service.checked = false;
             });
         } else {
             additionalServicesSection.style.display = 'block';
-            const eventType = document.getElementById('event-type').value;
-            if (eventType === 'party') {
-                populateServices(partyServices);
-            } else if (eventType === 'halal') {
-                populateServices(halalServices);
+            
+            // For special packages, only show extra dishes
+            if (isSpecialPackage) {
+                populateServices(weddingServices, true, false);
             } else {
-                populateServices(weddingServices);
+                if (eventType === 'party') {
+                    populateServices(partyServices, false, true);
+                } else if (eventType === 'halal') {
+                    populateServices(halalServices, false, false);
+                } else {
+                    populateServices(weddingServices, false, false);
+                }
             }
         }
         
@@ -1379,16 +1619,33 @@
                 '1750': 'Menu 05 Party'
             };
             return packages[packageType] || 'Party Package';
+        } else if (eventType === 'halal') {
+            return 'Halal Wedding Package';
         } else {
-            const packages = {
-                '3250': 'Banquet Hall Menu 01',
-                '3750': 'Banquet Hall Menu 02',
-                '4250': 'Banquet Hall Menu 03',
-                '4850': 'Banquet Hall Menu 04',
-                '5800': 'All-Inclusive Package'
-            };
-            return packages[packageType] || 'Wedding Package';
+            // Check regular packages
+            for (const pkg of regularPackages) {
+                if (pkg.value === packageType) return pkg.label.split(' - ')[0];
+            }
+            
+            // Check special packages
+            for (const tier of Object.values(specialPackagePricing)) {
+                for (const pkg of tier) {
+                    if (pkg.value === packageType) return pkg.label.split(' - ')[0];
+                }
+            }
+            
+            return 'Wedding Package';
         }
+    }
+
+    function isSpecialPackage(packageValue) {
+        // Check if it's a special package
+        for (const tier of Object.values(specialPackagePricing)) {
+            for (const pkg of tier) {
+                if (pkg.value === packageValue) return true;
+            }
+        }
+        return false;
     }
 
     function calculatePrice() {
@@ -1518,7 +1775,9 @@
             guests,
             hallSelection: eventType === 'halal' ? 
                 document.getElementById('halal-hall-selection').value : 
-                (document.getElementById('hall-selection') ? document.getElementById('hall-selection').value : null)
+                (document.getElementById('hall-selection') ? document.getElementById('hall-selection').value : null),
+            isAllInclusive: packageType === '5800',
+            isSpecialPackage: isSpecialPackage(packageType)
         };
         
         // Show quote actions
@@ -1574,7 +1833,7 @@
         const modal = document.getElementById('quote-modal');
         const content = document.getElementById('quote-content');
         
-        const { breakdown, total, eventType, eventDate, guests, hallSelection, isAllInclusive } = currentCalculation;
+        const { breakdown, total, eventType, eventDate, guests, hallSelection, isAllInclusive, isSpecialPackage } = currentCalculation;
         
         // Generate quote number
         const date = new Date();
@@ -1585,8 +1844,12 @@
         
         // Get hall name
         let hallName = '';
-        if (hallSelection && hallConfig[hallSelection]) {
-            hallName = hallConfig[hallSelection].name;
+        if (hallSelection) {
+            if (eventType === 'halal') {
+                hallName = getHalalHallName(hallSelection);
+            } else if (hallConfig[hallSelection]) {
+                hallName = hallConfig[hallSelection].name;
+            }
         }
         
         let html = `
@@ -1674,11 +1937,25 @@
             `;
         }
         
+        // Add special package notice if applicable
+        if (isSpecialPackage) {
+            html += `
+                <div class="bg-yellow-50 p-4 rounded-lg mb-6">
+                    <h4 class="font-bold text-yellow-800 mb-2">Special Package Notice:</h4>
+                    <p class="text-sm text-yellow-700">This special package includes premium selections and services at a discounted rate for larger events.</p>
+                </div>
+            `;
+        }
+        
         // Add small crowd surcharge notice if applicable
         if (eventType !== 'party' && hallSelection && guests > 0) {
             const hall = hallConfig[hallSelection];
             if (hall && guests < hall.minGuests) {
                 html += `
+                <div class="bg-orange-50 p-4 rounded-lg mb-6">
+                    <h4 class="font-bold text-orange-800 mb-2">Small Crowd Surcharge Notice:</h4>
+                    <p class="text-sm text-orange-700">A surcharge of Rs. ${hall.surcharge.toLocaleString()} has been applied for events with fewer than ${hall.minGuests} guests in the ${hall.name}.</p>
+                </div>
                 `;
             }
         }
@@ -1711,309 +1988,341 @@
     }
 
     function downloadQuotation() {
-            if (!currentCalculation) {
-                alert('Please calculate the price first');
-                return;
-            }
+        if (!currentCalculation) {
+            alert('Please calculate the price first');
+            return;
+        }
 
-            const { jsPDF } = window.jspdf;
-            const pdf = new jsPDF('p', 'mm', 'a4');
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        
+        // PDF styling constants
+        const pageWidth = 190; // A4 width minus margins (210 - 20)
+        const pageHeight = 277; // A4 height minus margins (297 - 20)
+        const margin = 10;
+        const lineHeight = 7;
+        let currentY = margin;
+        
+        // Colors
+        const primaryColor = [4, 52, 24]; // Hotel green
+        const accentColor = [182, 214, 69]; // Hotel lime
+        const grayColor = [107, 114, 128];
+        
+        // Helper function to check if we need a new page
+        function checkPageBreak(requiredHeight) {
+            if (currentY + requiredHeight > pageHeight) {
+                pdf.addPage();
+                currentY = margin;
+                return true;
+            }
+            return false;
+        }
+        
+        // Helper function to add text with word wrapping
+        function addWrappedText(text, x, y, maxWidth, fontSize = 10) {
+            pdf.setFontSize(fontSize);
+            const lines = pdf.splitTextToSize(text, maxWidth);
+            lines.forEach((line, index) => {
+                checkPageBreak(lineHeight);
+                pdf.text(line, x, y + (index * lineHeight));
+            });
+            return y + (lines.length * lineHeight);
+        }
+        
+        // Generate quote number
+        const date = new Date();
+        const quoteNumber = 'GV' + date.getFullYear() + 
+                        (date.getMonth() + 1).toString().padStart(2, '0') + 
+                        date.getDate().toString().padStart(2, '0') + 
+                        Math.floor(Math.random() * 1000);
+        
+        // Header
+        pdf.setFillColor(...primaryColor);
+        pdf.rect(margin, currentY, pageWidth, 25, 'F');
+        
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFontSize(20);
+        pdf.setFont('helvetica', 'bold');
+        pdf.text('Green Valley Hotel', margin + 5, currentY + 8);
+        
+        pdf.setFontSize(12);
+        pdf.setFont('helvetica', 'normal');
+        pdf.text(`${currentCalculation.eventType.charAt(0).toUpperCase() + currentCalculation.eventType.slice(1)} Package Quotation`, margin + 5, currentY + 16);
+        
+        // Quote details in header
+        pdf.setFontSize(8);
+        pdf.text(`Quote #: ${quoteNumber}`, pageWidth - 40, currentY + 8);
+        pdf.text(`Date: ${new Date().toLocaleDateString()}`, pageWidth - 40, currentY + 14);
+        pdf.text(`Valid Until: ${new Date(Date.now() + 30*24*60*60*1000).toLocaleDateString()}`, pageWidth - 40, currentY + 20);
+        
+        currentY += 35;
+        
+        // Event Details Section
+        pdf.setTextColor(0, 0, 0);
+        pdf.setFontSize(14);
+        pdf.setFont('helvetica', 'bold');
+        pdf.text('Event Details', margin, currentY);
+        currentY += 10;
+        
+        pdf.setFontSize(10);
+        pdf.setFont('helvetica', 'normal');
+        
+        const eventDetails = [
+            `Event Type: ${currentCalculation.eventType.charAt(0).toUpperCase() + currentCalculation.eventType.slice(1)}`,
+            `Event Date: ${currentCalculation.eventDate || 'To be confirmed'}`,
+            `Number of Guests: ${currentCalculation.guests}`
+        ];
+        
+        if (currentCalculation.eventType !== 'party' && currentCalculation.hallSelection) {
+            let hallName = '';
+            if (currentCalculation.eventType === 'halal') {
+                hallName = getHalalHallName(currentCalculation.hallSelection);
+            } else {
+                const hall = hallConfig[currentCalculation.hallSelection];
+                hallName = hall ? hall.name : currentCalculation.hallSelection;
+            }
+            eventDetails.push(`Hall: ${hallName}`);
+        }
+        
+        eventDetails.forEach(detail => {
+            checkPageBreak(lineHeight);
+            pdf.text(detail, margin, currentY);
+            currentY += lineHeight;
+        });
+        
+        currentY += 10;
+        
+        // Service Breakdown Table
+        checkPageBreak(20);
+        pdf.setFontSize(14);
+        pdf.setFont('helvetica', 'bold');
+        pdf.text('Service Breakdown', margin, currentY);
+        currentY += 10;
+        
+        // Table header
+        checkPageBreak(15);
+        pdf.setFillColor(...accentColor);
+        pdf.rect(margin, currentY, pageWidth, 10, 'F');
+        
+        pdf.setTextColor(...primaryColor);
+        pdf.setFontSize(10);
+        pdf.setFont('helvetica', 'bold');
+        
+        pdf.text('Service', margin + 2, currentY + 7);
+        pdf.text('Qty', margin + 100, currentY + 7);
+        pdf.text('Unit Price', margin + 125, currentY + 7);
+        pdf.text('Total', margin + 160, currentY + 7);
+        
+        currentY += 12;
+        
+        // Table rows
+        pdf.setTextColor(0, 0, 0);
+        pdf.setFont('helvetica', 'normal');
+        
+        currentCalculation.breakdown.forEach((item, index) => {
+            checkPageBreak(lineHeight + 2);
             
-            // PDF styling constants
-            const pageWidth = 190; // A4 width minus margins (210 - 20)
-            const pageHeight = 277; // A4 height minus margins (297 - 20)
-            const margin = 10;
-            const lineHeight = 7;
-            let currentY = margin;
-            
-            // Colors
-            const primaryColor = [4, 52, 24]; // Hotel green
-            const accentColor = [182, 214, 69]; // Hotel lime
-            const grayColor = [107, 114, 128];
-            
-            // Helper function to check if we need a new page
-            function checkPageBreak(requiredHeight) {
-                if (currentY + requiredHeight > pageHeight) {
-                    pdf.addPage();
-                    currentY = margin;
-                    return true;
-                }
-                return false;
+            // Alternate row background
+            if (index % 2 === 0) {
+                pdf.setFillColor(248, 250, 252);
+                pdf.rect(margin, currentY - 2, pageWidth, lineHeight + 2, 'F');
             }
             
-            // Helper function to add text with word wrapping
-            function addWrappedText(text, x, y, maxWidth, fontSize = 10) {
-                pdf.setFontSize(fontSize);
-                const lines = pdf.splitTextToSize(text, maxWidth);
-                lines.forEach((line, index) => {
-                    checkPageBreak(lineHeight);
-                    pdf.text(line, x, y + (index * lineHeight));
-                });
-                return y + (lines.length * lineHeight);
+            // Service name (with word wrapping if needed)
+            const serviceLines = pdf.splitTextToSize(item.item, 95);
+            pdf.text(serviceLines[0], margin + 2, currentY + 4);
+            
+            // If service name is too long, show truncated version
+            if (serviceLines.length > 1) {
+                pdf.text(serviceLines[0].substring(0, serviceLines[0].length - 3) + '...', margin + 2, currentY + 4);
             }
             
-            // Generate quote number
-            const date = new Date();
-            const quoteNumber = 'GV' + date.getFullYear() + 
-                            (date.getMonth() + 1).toString().padStart(2, '0') + 
-                            date.getDate().toString().padStart(2, '0') + 
-                            Math.floor(Math.random() * 1000);
+            pdf.text(item.quantity.toString(), margin + 100, currentY + 4);
+            pdf.text(`Rs. ${item.unitPrice.toLocaleString()}`, margin + 125, currentY + 4);
+            pdf.text(`Rs. ${item.total.toLocaleString()}`, margin + 160, currentY + 4);
             
-            // Header
-            pdf.setFillColor(...primaryColor);
-            pdf.rect(margin, currentY, pageWidth, 25, 'F');
-            
-            pdf.setTextColor(255, 255, 255);
-            pdf.setFontSize(20);
-            pdf.setFont('helvetica', 'bold');
-            pdf.text('Green Valley Hotel', margin + 5, currentY + 8);
-            
+            currentY += lineHeight + 2;
+        });
+        
+        // Total
+        checkPageBreak(15);
+        pdf.setFillColor(...primaryColor);
+        pdf.rect(margin, currentY, pageWidth, 12, 'F');
+        
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFontSize(12);
+        pdf.setFont('helvetica', 'bold');
+        pdf.text('GRAND TOTAL:', margin + 2, currentY + 8);
+        pdf.text(`Rs. ${currentCalculation.total.toLocaleString()}`, margin + 160, currentY + 8);
+        
+        currentY += 20;
+        
+        // Package Features
+        if (currentCalculation.isAllInclusive) {
+            checkPageBreak(50);
+            pdf.setTextColor(...primaryColor);
             pdf.setFontSize(12);
-            pdf.setFont('helvetica', 'normal');
-            pdf.text(`${currentCalculation.eventType.charAt(0).toUpperCase() + currentCalculation.eventType.slice(1)} Package Quotation`, margin + 5, currentY + 16);
-            
-            // Quote details in header
-            pdf.setFontSize(8);
-            pdf.text(`Quote #: ${quoteNumber}`, pageWidth - 40, currentY + 8);
-            pdf.text(`Date: ${new Date().toLocaleDateString()}`, pageWidth - 40, currentY + 14);
-            pdf.text(`Valid Until: ${new Date(Date.now() + 30*24*60*60*1000).toLocaleDateString()}`, pageWidth - 40, currentY + 20);
-            
-            currentY += 35;
-            
-            // Event Details Section
-            pdf.setTextColor(0, 0, 0);
-            pdf.setFontSize(14);
             pdf.setFont('helvetica', 'bold');
-            pdf.text('Event Details', margin, currentY);
-            currentY += 10;
+            pdf.text('All-Inclusive Package Features:', margin, currentY);
+            currentY += 8;
             
-            pdf.setFontSize(10);
+            pdf.setTextColor(0, 0, 0);
+            pdf.setFontSize(9);
             pdf.setFont('helvetica', 'normal');
             
-            const eventDetails = [
-                `Event Type: ${currentCalculation.eventType.charAt(0).toUpperCase() + currentCalculation.eventType.slice(1)}`,
-                `Event Date: ${currentCalculation.eventDate || 'To be confirmed'}`,
-                `Number of Guests: ${currentCalculation.guests}`
+            const features = [
+                '• Premium decorations and venue setup',
+                '• Professional entertainment (DJ/Music Band)',
+                '• Complete catering service',
+                '• Wedding cake and champagne service',
+                '• Photography and videography coordination',
+                '• Event planning and coordination'
             ];
             
-            if (currentCalculation.eventType !== 'party' && currentCalculation.hallSelection) {
-                const hall = hallConfig[currentCalculation.hallSelection];
-                eventDetails.push(`Hall: ${hall.name}`);
-            }
-            
-            eventDetails.forEach(detail => {
+            features.forEach(feature => {
                 checkPageBreak(lineHeight);
-                pdf.text(detail, margin, currentY);
+                pdf.text(feature, margin + 5, currentY);
                 currentY += lineHeight;
             });
             
-            currentY += 10;
+            currentY += 5;
+        }
+        
+        // Special package notice
+        if (currentCalculation.isSpecialPackage) {
+            checkPageBreak(25);
             
-            // Service Breakdown Table
-            checkPageBreak(20);
-            pdf.setFontSize(14);
+            // Notice box background
+            pdf.setFillColor(255, 249, 219); // Yellow background
+            pdf.rect(margin, currentY - 2, pageWidth, 20, 'F');
+            
+            pdf.setTextColor(133, 77, 14); // Yellow text
+            pdf.setFontSize(11);
             pdf.setFont('helvetica', 'bold');
-            pdf.text('Service Breakdown', margin, currentY);
-            currentY += 10;
+            pdf.text('Special Package Notice:', margin + 5, currentY + 5);
             
-            // Table header
-            checkPageBreak(15);
-            pdf.setFillColor(...accentColor);
-            pdf.rect(margin, currentY, pageWidth, 10, 'F');
-            
-            pdf.setTextColor(...primaryColor);
-            pdf.setFontSize(10);
-            pdf.setFont('helvetica', 'bold');
-            
-            pdf.text('Service', margin + 2, currentY + 7);
-            pdf.text('Qty', margin + 100, currentY + 7);
-            pdf.text('Unit Price', margin + 125, currentY + 7);
-            pdf.text('Total', margin + 160, currentY + 7);
-            
-            currentY += 12;
-            
-            // Table rows
-            pdf.setTextColor(0, 0, 0);
+            pdf.setFontSize(9);
             pdf.setFont('helvetica', 'normal');
-            
-            currentCalculation.breakdown.forEach((item, index) => {
-                checkPageBreak(lineHeight + 2);
+            const noticeText = `This special package includes premium selections and services at a discounted rate for larger events.`;
+            currentY = addWrappedText(noticeText, margin + 5, currentY + 12, pageWidth - 10, 9);
+            currentY += 10;
+        }
+        
+        // Small crowd surcharge notice
+        if (currentCalculation.eventType !== 'party' && currentCalculation.hallSelection && currentCalculation.guests > 0) {
+            const hall = hallConfig[currentCalculation.hallSelection];
+            if (hall && currentCalculation.guests < hall.minGuests) {
+                checkPageBreak(25);
                 
-                // Alternate row background
-                if (index % 2 === 0) {
-                    pdf.setFillColor(248, 250, 252);
-                    pdf.rect(margin, currentY - 2, pageWidth, lineHeight + 2, 'F');
-                }
+                // Warning box background
+                pdf.setFillColor(255, 237, 213); // Orange background
+                pdf.rect(margin, currentY - 2, pageWidth, 20, 'F');
                 
-                // Service name (with word wrapping if needed)
-                const serviceLines = pdf.splitTextToSize(item.item, 95);
-                pdf.text(serviceLines[0], margin + 2, currentY + 4);
-                
-                // If service name is too long, show truncated version
-                if (serviceLines.length > 1) {
-                    pdf.text(serviceLines[0].substring(0, serviceLines[0].length - 3) + '...', margin + 2, currentY + 4);
-                }
-                
-                pdf.text(item.quantity.toString(), margin + 100, currentY + 4);
-                pdf.text(`Rs. ${item.unitPrice.toLocaleString()}`, margin + 125, currentY + 4);
-                pdf.text(`Rs. ${item.total.toLocaleString()}`, margin + 160, currentY + 4);
-                
-                currentY += lineHeight + 2;
-            });
-            
-            // Total
-            checkPageBreak(15);
-            pdf.setFillColor(...primaryColor);
-            pdf.rect(margin, currentY, pageWidth, 12, 'F');
-            
-            pdf.setTextColor(255, 255, 255);
-            pdf.setFontSize(12);
-            pdf.setFont('helvetica', 'bold');
-            pdf.text('GRAND TOTAL:', margin + 2, currentY + 8);
-            pdf.text(`Rs. ${currentCalculation.total.toLocaleString()}`, margin + 160, currentY + 8);
-            
-            currentY += 20;
-            
-            // Package Features
-            if (currentCalculation.isAllInclusive) {
-                checkPageBreak(50);
-                pdf.setTextColor(...primaryColor);
-                pdf.setFontSize(12);
+                pdf.setTextColor(154, 52, 18); // Orange text
+                pdf.setFontSize(11);
                 pdf.setFont('helvetica', 'bold');
-                pdf.text('All-Inclusive Package Features:', margin, currentY);
-                currentY += 8;
+                pdf.text('⚠ Important Notice:', margin + 5, currentY + 5);
                 
-                pdf.setTextColor(0, 0, 0);
                 pdf.setFontSize(9);
                 pdf.setFont('helvetica', 'normal');
-                
-                const features = [
-                ];
-                
-                features.forEach(feature => {
-                    checkPageBreak(lineHeight);
-                    pdf.text(feature, margin + 5, currentY);
-                    currentY += lineHeight;
-                });
-                
-                currentY += 5;
+                const noticeText = `Small crowd surcharge (Rs. ${hall.surcharge.toLocaleString()}) applied for fewer than ${hall.minGuests} guests in ${hall.name}.`;
+                currentY = addWrappedText(noticeText, margin + 5, currentY + 12, pageWidth - 10, 9);
+                currentY += 10;
             }
-            
-            // Small crowd surcharge notice
-            if (currentCalculation.eventType !== 'party' && currentCalculation.hallSelection && currentCalculation.guests > 0) {
-                const hall = hallConfig[currentCalculation.hallSelection];
-                if (hall && currentCalculation.guests < hall.minGuests) {
-                    checkPageBreak(25);
-                    
-                    // Warning box background
-                    pdf.setFillColor(255, 237, 213); // Orange background
-                    pdf.rect(margin, currentY - 2, pageWidth, 20, 'F');
-                    
-                    pdf.setTextColor(154, 52, 18); // Orange text
-                    pdf.setFontSize(11);
-                    pdf.setFont('helvetica', 'bold');
-                    pdf.text('⚠ Important Notice:', margin + 5, currentY + 5);
-                    
-                    pdf.setFontSize(9);
-                    pdf.setFont('helvetica', 'normal');
-                    const noticeText = `Small crowd surcharge (Rs. ${hall.surcharge.toLocaleString()}) applied for fewer than ${hall.minGuests} guests in ${hall.name}.`;
-                    currentY = addWrappedText(noticeText, margin + 5, currentY + 12, pageWidth - 10, 9);
-                    currentY += 10;
-                }
-            }
-            
-            // Terms & Conditions
-            checkPageBreak(80);
-            pdf.setTextColor(...primaryColor);
-            pdf.setFontSize(14);
-            pdf.setFont('helvetica', 'bold');
-            pdf.text('Terms & Conditions', margin, currentY);
-            currentY += 10;
-            
-            pdf.setTextColor(0, 0, 0);
-            pdf.setFontSize(9);
-            pdf.setFont('helvetica', 'normal');
-            
-            const terms = [
-                '1. The Advanced Payment is Non-Refundable.',
-                '2. Rs. 50,000 Advance Payment Required for Booking.',
-                '3. Reservation must be Confirmed within 7 Days of Quote Generation.'
-            ];
-            
-            terms.forEach(term => {
+        }
+        
+        // Terms & Conditions
+        checkPageBreak(80);
+        pdf.setTextColor(...primaryColor);
+        pdf.setFontSize(14);
+        pdf.setFont('helvetica', 'bold');
+        pdf.text('Terms & Conditions', margin, currentY);
+        currentY += 10;
+        
+        pdf.setTextColor(0, 0, 0);
+        pdf.setFontSize(9);
+        pdf.setFont('helvetica', 'normal');
+        
+        const terms = [
+            '1. The Advanced Payment is Non-Refundable.',
+            '2. Rs. 50,000 Advance Payment Required for Booking.',
+            '3. Reservation must be Confirmed within 7 Days of Quote Generation.'
+        ];
+        
+        terms.forEach(term => {
+            checkPageBreak(lineHeight);
+            const lines = pdf.splitTextToSize(term, pageWidth - 10);
+            lines.forEach(line => {
                 checkPageBreak(lineHeight);
-                const lines = pdf.splitTextToSize(term, pageWidth - 10);
-                lines.forEach(line => {
-                    checkPageBreak(lineHeight);
-                    pdf.text(line, margin + 5, currentY);
-                    currentY += lineHeight;
-                });
+                pdf.text(line, margin + 5, currentY);
+                currentY += lineHeight;
             });
+        });
+        
+        currentY += 10;
+        
+        // Contact Information
+        checkPageBreak(30);
+        pdf.setFillColor(248, 250, 252);
+        pdf.rect(margin, currentY - 5, pageWidth, 25, 'F');
+        
+        pdf.setTextColor(...primaryColor);
+        pdf.setFontSize(12);
+        pdf.setFont('helvetica', 'bold');
+        pdf.text('Contact Information', margin + 5, currentY + 3);
+        
+        pdf.setTextColor(0, 0, 0);
+        pdf.setFontSize(9);
+        pdf.setFont('helvetica', 'normal');
+        
+        const contactInfo = [
+            'Green Valley Hotel',
+            'For inquiries and bookings:',
+            'Phone: 037 222 19 96 | 077 999 03 000',
+            'Email: info@greenvalleyresort.lk',
+            'Website: www.greenvalleyresort.lk',
+            'Your Dream Event Destination' 
+        ];
+        
+        contactInfo.forEach((info, index) => {
+            pdf.text(info, margin + 5, currentY + 10 + (index * 4));
+        });
+        
+        currentY += 35;
+        
+        // Footer on every page
+        const totalPages = pdf.internal.getNumberOfPages();
+        for (let i = 1; i <= totalPages; i++) {
+            pdf.setPage(i);
             
-            currentY += 10;
+            // Footer line
+            pdf.setDrawColor(...grayColor);
+            pdf.line(margin, 287, pageWidth + margin, 287);
             
-            // Contact Information
-            checkPageBreak(30);
-            pdf.setFillColor(248, 250, 252);
-            pdf.rect(margin, currentY - 5, pageWidth, 25, 'F');
-            
-            pdf.setTextColor(...primaryColor);
-            pdf.setFontSize(12);
-            pdf.setFont('helvetica', 'bold');
-            pdf.text('Contact Information', margin + 5, currentY + 3);
-            
-            pdf.setTextColor(0, 0, 0);
-            pdf.setFontSize(9);
+            // Footer text
+            pdf.setTextColor(...grayColor);
+            pdf.setFontSize(8);
             pdf.setFont('helvetica', 'normal');
+            pdf.text('Green Valley Hotel - Your Dream Event Destination', margin, 292);
+            pdf.text(`Page ${i} of ${totalPages}`, pageWidth - 20, 292);
             
-            const contactInfo = [
-                'Green Valley Hotel',
-                'For inquiries and bookings:',
-                'Phone: 037 222 19 96 | 077 999 03 000',
-                'Email: info@greenvalleyresort.lk',
-                'Website: www.greenvalleyresort.lk',
-                'Your Dream Event Destination' 
-            ];
-            
-            contactInfo.forEach((info, index) => {
-                pdf.text(info, margin + 5, currentY + 10 + (index * 4));
-            });
-            
-            currentY += 35;
-            
-            // Footer on every page
-            const totalPages = pdf.internal.getNumberOfPages();
-            for (let i = 1; i <= totalPages; i++) {
-                pdf.setPage(i);
-                
-                // Footer line
-                pdf.setDrawColor(...grayColor);
-                pdf.line(margin, 287, pageWidth + margin, 287);
-                
-                // Footer text
-                pdf.setTextColor(...grayColor);
-                pdf.setFontSize(8);
-                pdf.setFont('helvetica', 'normal');
-                pdf.text('Green Valley Hotel - Your Dream Event Destination', margin, 292);
-                pdf.text(`Page ${i} of ${totalPages}`, pageWidth - 20, 292);
-                
-                // Add timestamp
-                pdf.text(`Generated on: ${new Date().toLocaleString()}`, margin, 297);
-            }
-            
-            // Generate filename
-            const eventType = currentCalculation.eventType.charAt(0).toUpperCase() + 
-                            currentCalculation.eventType.slice(1);
-            const dateStr = new Date().toISOString().split('T')[0];
-            const filename = `GreenValley_${eventType}_Quote_${quoteNumber}_${dateStr}.pdf`;
-            
-            // Save the PDF
-            pdf.save(filename);
+            // Add timestamp
+            pdf.text(`Generated on: ${new Date().toLocaleString()}`, margin, 297);
         }
+        
+        // Generate filename
+        const eventType = currentCalculation.eventType.charAt(0).toUpperCase() + 
+                        currentCalculation.eventType.slice(1);
+        const dateStr = new Date().toISOString().split('T')[0];
+        const filename = `GreenValley_${eventType}_Quote_${quoteNumber}_${dateStr}.pdf`;
+        
+        // Save the PDF
+        pdf.save(filename);
+    }
 
-        function downloadPDF() {
-            downloadQuotation();
-        }
+    function downloadPDF() {
+        downloadQuotation();
+    }
 
     function shareViaWhatsApp() {
         if (!currentCalculation) {
@@ -2022,7 +2331,10 @@
         }
         
         const selectedHallName = currentCalculation.hallSelection ? 
-            hallConfig[currentCalculation.hallSelection].name : 'Not Selected';
+            (currentCalculation.eventType === 'halal' ? 
+                getHalalHallName(currentCalculation.hallSelection) : 
+                hallConfig[currentCalculation.hallSelection].name) : 
+            'Not Selected';
         
         let message = `🏨 *Green Valley Hotel - ${currentCalculation.eventType.charAt(0).toUpperCase() + currentCalculation.eventType.slice(1)} Package Quote*\n\n`;
         message += `📅 *Event Type:* ${currentCalculation.eventType.charAt(0).toUpperCase() + currentCalculation.eventType.slice(1)}\n`;
@@ -2055,10 +2367,18 @@
             message += `• Event planning and coordination\n\n`;
         }
         
+        // Add special package notice if applicable
+        if (currentCalculation.isSpecialPackage) {
+            message += `🎉 *Special Package Notice:*\n`;
+            message += `This special package includes premium selections and services at a discounted rate for larger events.\n\n`;
+        }
+        
         // Add small crowd surcharge notice if applicable
         if (currentCalculation.eventType !== 'party' && currentCalculation.hallSelection && currentCalculation.guests > 0) {
             const hall = hallConfig[currentCalculation.hallSelection];
             if (hall && currentCalculation.guests < hall.minGuests) {
+                message += `⚠️ *Small Crowd Surcharge Notice:*\n`;
+                message += `A surcharge of Rs. ${hall.surcharge.toLocaleString()} has been applied for events with fewer than ${hall.minGuests} guests in the ${hall.name}.\n\n`;
             }
         }
         
@@ -2068,7 +2388,7 @@
         message += `• Reservation must be confirmed within 7 days\n\n`;
         
         message += `📞 *Contact us for booking:*\n`;
-        message += `Phone: 037 222 19 96\n`;
+        message += `Phone: 037 222 19 96 | 077 999 03 000\n`;
         message += `Email: info@greenvalleyhotel.lk\n\n`;
         
         message += `_Quote generated on ${new Date().toLocaleDateString()}_`;
@@ -2076,6 +2396,12 @@
         const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
         window.open(whatsappUrl, '_blank');
     }
-    </script>
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', function() {
+        // Set up initial package options
+        handleGuestCountChange();
+    });
+</script>
 </body>
 </html>
