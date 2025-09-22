@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -318,7 +317,7 @@
                     </nav>
                     
                     <div class="mt-auto pt-6">
-                        <img src="./images/3.png" > 
+                        <img src="../images/3.png" > 
                     </div>
                 </div>
             </div>
@@ -338,7 +337,7 @@
                             <p class="text-hotel-lime text-xs">Wedding Packages</p>
                         </div>
                         <div class="w-8 h-8 bg-hotel-lime rounded-full flex items-center justify-center">
-                            <img src="./images/3.png" alt="Profile" class="circular-image">
+                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Profile" class="circular-image">
                         </div>
                     </div>
                 </div>
@@ -405,9 +404,9 @@
                 <!-- Dashboard Section -->
                 <div id="dashboard-section" class="section hidden animate-fade-in">
                     <div class="video-container">
-                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/fCmIzZwZZGw?si=M6qKRYSARvKDN55-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/QhByBAOLceg?si=C7neUL33d_xUhqOD" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
-                </div>  
+                </div>
 
                 <!-- Wedding Packages Section -->
                 <div id="packages-section" class="section hidden animate-fade-in">
@@ -565,7 +564,7 @@
                             <div class="bg-hotel-lime text-hotel-green text-xs font-bold py-2 px-3 text-center"></div>
                             <div class="p-6">
                                 <h3 class="text-xl font-bold text-hotel-green mb-2">Menu 04</h3>
-                                <div class="text-2xl font-bold text-hotel-green mb-3">Rs. 4,850/-</div>
+                                <div class="text-2xl font-bold text-hotel-green mb-3">Rs. 4350/-</div>
                                 <p class="text-gray-600 text-sm mb-4">The ultimate luxury experience with all premium items</p>
                                 
                                 <div class="mb-4">
@@ -885,8 +884,15 @@
                 <div id="dancing-section" class="section hidden animate-fade-in relative h-full">
                     <div class="dancing-video-title" id="dancing-video-title"></div>
 
+                    
+                    <!-- <div class="dancing-controls-overlay">
+                        <select id="team-dropdown" class="dancing-dropdown-menu" onchange="changeDancingTeam(this.value)">
+                            <option value="wes-dance">Wes Dance</option>
+                            <option value="item-dance">Item Dance</option>
+                        </select>
+                    </div> -->
                     <div class="video-container">
-                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/T-slynXtXD4?si=OsLZdUjVCkzXm-V1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/GSkV8u1slJk?si=m6q1HYInU9J9o_nO" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
                 </div>
 
@@ -895,11 +901,11 @@
                     <div class="vocal-video-title" id="vocal-video-title"></div>
                     
                     <div class="video-container">
-                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/m3H2RTdaN-I?si=SGENUbrDelPsIDQA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/Z3bltF8trG4?si=QY4KlZxXFE5kREUL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
-                </div>  
+                </div>
 
-               <!-- Champagne Section -->
+                <!-- Champagne Section -->
                 <div id="Champagne-section" class="section hidden animate-fade-in relative h-full">
 
                     <div class="video-container">
@@ -930,7 +936,8 @@
                 </div>
 
                 <!-- Price Calculator Section -->
-                <div>
+                <div id="calculator-section" class="section animate-fade-in p-6">
+                    <div>
                     <div class="container mx-auto p-4">
                         <div class="mb-6">
                             <h2 class="text-2xl font-bold text-hotel-dark">Wedding Package Calculator</h2>
@@ -1023,6 +1030,7 @@
                         </div>
                     </div>
                 </div>
+                </div>    
             </main>
         </div>
     </div>
@@ -1096,67 +1104,160 @@
             document.getElementById('package-options').classList.add('hidden');
             document.getElementById('package-options-party').classList.add('hidden');
         }
-        
-        // Video sound control functions
-        function toggleSound() {
-            const video = document.getElementById('dashboard-video');
-            const soundBtn = document.getElementById('sound-toggle');
-            const icon = soundBtn.querySelector('i');
+
+        // Dancing Video Functions
+        function initializeDancingVideo() {
+            const video = document.getElementById('dancing-video');
+            const playPauseIcon = document.getElementById('dancing-play-pause-icon');
+            const playPauseText = document.getElementById('dancing-play-pause-text');
+            const progressBar = document.getElementById('dancing-progress-bar');
+            const timeDisplay = document.getElementById('dancing-time-display');
             
-            if (video.muted) {
-                video.muted = false;
-                icon.classList.remove('fa-volume-mute');
-                icon.classList.add('fa-volume-up');
-                soundBtn.classList.add('bg-hotel-lime');
-            } else {
-                video.muted = true;
-                icon.classList.remove('fa-volume-up');
-                icon.classList.add('fa-volume-mute');
-                soundBtn.classList.remove('bg-hotel-lime');
+            // Check if event listeners are already added
+            if (!video.hasListeners) {
+                video.addEventListener('loadedmetadata', updateDancingTimeDisplay);
+                video.addEventListener('timeupdate', updateDancingProgress);
+                video.addEventListener('ended', onDancingVideoEnded);
+                video.hasListeners = true;
             }
-        }
-        
-        function togglePlayPause() {
-            const video = document.getElementById('dashboard-video');
-            const playPauseBtn = document.querySelector('.video-controls button:nth-child(2)');
-            const icon = playPauseBtn.querySelector('i');
             
+            // Auto-play the video
+            video.play().catch(e => console.log('Autoplay prevented:', e));
+            updateDancingPlayPauseButton();
+        }
+
+        // Toggle play/pause for dancing video
+        function toggleDancingPlayPause() {
+            const video = document.getElementById('dancing-video');
             if (video.paused) {
                 video.play();
-                icon.classList.remove('fa-play');
-                icon.classList.add('fa-pause');
             } else {
                 video.pause();
-                icon.classList.remove('fa-pause');
-                icon.classList.add('fa-play');
+            }
+            updateDancingPlayPauseButton();
+        }
+
+        // Update play/pause button for dancing video
+        function updateDancingPlayPauseButton() {
+            const video = document.getElementById('dancing-video');
+            const playPauseIcon = document.getElementById('dancing-play-pause-icon');
+            const playPauseText = document.getElementById('dancing-play-pause-text');
+            
+            if (video.paused) {
+                playPauseIcon.className = 'fas fa-play';
+                playPauseText.textContent = 'Play';
+            } else {
+                playPauseIcon.className = 'fas fa-pause';
+                playPauseText.textContent = 'Pause';
             }
         }
-        
-        function restartVideo() {
-            const video = document.getElementById('dashboard-video');
-            video.currentTime = 0;
-            video.play();
-            
-            // Ensure play button shows pause icon
-            const playPauseBtn = document.querySelector('.video-controls button:nth-child(2)');
-            const icon = playPauseBtn.querySelector('i');
-            icon.classList.remove('fa-play');
-            icon.classList.add('fa-pause');
-        }
-        
-        function skipToPackages() {
-            showSection('packages');
-        }
-        
-        // Initialize video with sound muted by default
-        document.addEventListener('DOMContentLoaded', function() {
-            const video = document.getElementById('dashboard-video');
-            video.muted = true; // Start with muted sound
-            
-            // Ensure the dashboard section is shown by default
-            showSection('dashboard');
-        });
 
+        // Skip forward 10 seconds for dancing video
+        function dancingSkipForward() {
+            const video = document.getElementById('dancing-video');
+            video.currentTime += 10;
+        }
+
+        // Skip backward 10 seconds for dancing video
+        function dancingSkipBackward() {
+            const video = document.getElementById('dancing-video');
+            video.currentTime -= 10;
+        }
+
+        // Change dancing team/video
+        function changeDancingTeam(teamKey) {
+            const videos = {
+                'wes-dance': {
+                    src: '../images/Video/Dancing Team/Dancing Team.mp4',
+                    title: 'Wes Dance'
+                },
+                'item-dance': {
+                    src: '../images/Video/Dancing Team/Item Dance.mp4',
+                    title: 'Item Dance'
+                }
+            };
+            
+            const selectedVideo = videos[teamKey];
+            if (selectedVideo) {
+                const video = document.getElementById('dancing-video');
+                const videoSource = document.getElementById('dancing-video-source');
+                const videoTitle = document.getElementById('dancing-video-title');
+                
+                const wasPlaying = !video.paused;
+                const currentTime = video.currentTime;
+                
+                videoSource.src = selectedVideo.src;
+                videoTitle.textContent = selectedVideo.title;
+                video.load();
+                
+                if (wasPlaying) {
+                    video.play().catch(e => console.log('Play failed:', e));
+                }
+            }
+        }
+
+        // Update progress bar for dancing video
+        function updateDancingProgress() {
+            const video = document.getElementById('dancing-video');
+            const progressBar = document.getElementById('dancing-progress-bar');
+            const progress = (video.currentTime / video.duration) * 100;
+            progressBar.style.width = progress + '%';
+            updateDancingTimeDisplay();
+        }
+
+        // Set progress when clicking on progress bar for dancing video
+        function setDancingProgress(e) {
+            const video = document.getElementById('dancing-video');
+            const progressContainer = e.currentTarget;
+            const rect = progressContainer.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const width = rect.width;
+            const percentage = clickX / width;
+            video.currentTime = percentage * video.duration;
+        }
+
+        // Update time display for dancing video
+        function updateDancingTimeDisplay() {
+            const video = document.getElementById('dancing-video');
+            const timeDisplay = document.getElementById('dancing-time-display');
+            const currentTime = formatDancingTime(video.currentTime);
+            const duration = formatDancingTime(video.duration);
+            timeDisplay.textContent = `${currentTime} / ${duration}`;
+        }
+
+        // Format time in MM:SS for dancing video
+        function formatDancingTime(seconds) {
+            if (isNaN(seconds)) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Handle video end for dancing video
+        function onDancingVideoEnded() {
+            updateDancingPlayPauseButton();
+        }
+
+        // Keyboard controls for dancing video
+        document.addEventListener('keydown', function(e) {
+            // Only handle if dancing section is visible
+            if (!document.getElementById('dancing-section').classList.contains('hidden')) {
+                switch(e.code) {
+                    case 'Space':
+                        e.preventDefault();
+                        toggleDancingPlayPause();
+                        break;
+                    case 'ArrowLeft':
+                        e.preventDefault();
+                        dancingSkipBackward();
+                        break;
+                    case 'ArrowRight':
+                        e.preventDefault();
+                        dancingSkipForward();
+                        break;
+                }
+            }
+        });
 
         // Initialize the page
         document.addEventListener('DOMContentLoaded', function() {
@@ -1194,6 +1295,640 @@
             });
         });
 
+        // Vocal Video Functions
+        function initializeVocalVideo() {
+            const video = document.getElementById('vocal-video');
+            const playPauseIcon = document.getElementById('vocal-play-pause-icon');
+            const playPauseText = document.getElementById('vocal-play-pause-text');
+            const progressBar = document.getElementById('vocal-progress-bar');
+            const timeDisplay = document.getElementById('vocal-time-display');
+            
+            // Check if event listeners are already added
+            if (!video.hasListeners) {
+                video.addEventListener('loadedmetadata', updateVocalTimeDisplay);
+                video.addEventListener('timeupdate', updateVocalProgress);
+                video.addEventListener('ended', onVocalVideoEnded);
+                video.hasListeners = true;
+            }
+            
+            // Auto-play the video
+            video.play().catch(e => console.log('Autoplay prevented:', e));
+            updateVocalPlayPauseButton();
+        }
+
+        // Toggle play/pause for vocal video
+        function toggleVocalPlayPause() {
+            const video = document.getElementById('vocal-video');
+            if (video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
+            updateVocalPlayPauseButton();
+        }
+
+        // Update play/pause button for vocal video
+        function updateVocalPlayPauseButton() {
+            const video = document.getElementById('vocal-video');
+            const playPauseIcon = document.getElementById('vocal-play-pause-icon');
+            const playPauseText = document.getElementById('vocal-play-pause-text');
+            
+            if (video.paused) {
+                playPauseIcon.className = 'fas fa-play';
+                playPauseText.textContent = 'Play';
+            } else {
+                playPauseIcon.className = 'fas fa-pause';
+                playPauseText.textContent = 'Pause';
+            }
+        }
+
+        // Skip forward 10 seconds for vocal video
+        function vocalSkipForward() {
+            const video = document.getElementById('vocal-video');
+            video.currentTime += 10;
+        }
+
+        // Skip backward 10 seconds for vocal video
+        function vocalSkipBackward() {
+            const video = document.getElementById('vocal-video');
+            video.currentTime -= 10;
+        }
+
+        // Update progress bar for vocal video
+        function updateVocalProgress() {
+            const video = document.getElementById('vocal-video');
+            const progressBar = document.getElementById('vocal-progress-bar');
+            const progress = (video.currentTime / video.duration) * 100;
+            progressBar.style.width = progress + '%';
+            updateVocalTimeDisplay();
+        }
+
+        // Set progress when clicking on progress bar for vocal video
+        function setVocalProgress(e) {
+            const video = document.getElementById('vocal-video');
+            const progressContainer = e.currentTarget;
+            const rect = progressContainer.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const width = rect.width;
+            const percentage = clickX / width;
+            video.currentTime = percentage * video.duration;
+        }
+
+        // Update time display for vocal video
+        function updateVocalTimeDisplay() {
+            const video = document.getElementById('vocal-video');
+            const timeDisplay = document.getElementById('vocal-time-display');
+            const currentTime = formatVocalTime(video.currentTime);
+            const duration = formatVocalTime(video.duration);
+            timeDisplay.textContent = `${currentTime} / ${duration}`;
+        }
+
+        // Format time in MM:SS for vocal video
+        function formatVocalTime(seconds) {
+            if (isNaN(seconds)) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Handle video end for vocal video
+        function onVocalVideoEnded() {
+            updateVocalPlayPauseButton();
+        }
+
+        // Update the showSection function to include vocal video initialization
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show the requested section
+            const section = document.getElementById(sectionId + '-section');
+            if (section) {
+                section.classList.remove('hidden');
+            }
+            
+            // Update active state in sidebar
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Find the button that triggered this and make it active
+            const activeButton = document.querySelector(`button[onclick="showSection('${sectionId}')`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+            
+            // Special case for packages section
+            if (sectionId === 'packages') {
+                showWeddingPackages();
+            }
+            
+            // Special case for dancing section - initialize video
+            if (sectionId === 'dancing') {
+                initializeDancingVideo();
+            }
+            
+            // Special case for vocal section - initialize video
+            if (sectionId === 'vocal') {
+                initializeVocalVideo();
+            }
+        }
+
+        // Enhanced keyboard controls to include vocal video
+        document.addEventListener('keydown', function(e) {
+            // Handle vocal section
+            if (!document.getElementById('vocal-section').classList.contains('hidden')) {
+                switch(e.code) {
+                    case 'Space':
+                        e.preventDefault();
+                        toggleVocalPlayPause();
+                        break;
+                    case 'ArrowLeft':
+                        e.preventDefault();
+                        vocalSkipBackward();
+                        break;
+                    case 'ArrowRight':
+                        e.preventDefault();
+                        vocalSkipForward();
+                        break;
+                }
+            }
+            // Handle dancing section
+            else if (!document.getElementById('dancing-section').classList.contains('hidden')) {
+                switch(e.code) {
+                    case 'Space':
+                        e.preventDefault();
+                        toggleDancingPlayPause();
+                        break;
+                    case 'ArrowLeft':
+                        e.preventDefault();
+                        dancingSkipBackward();
+                        break;
+                    case 'ArrowRight':
+                        e.preventDefault();
+                        dancingSkipForward();
+                        break;
+                }
+            }
+        });
+
+        // Kirikala Video Functions
+        function initializeKirikalaVideo() {
+            const video = document.getElementById('kirikala-video');
+            const playPauseIcon = document.getElementById('kirikala-play-pause-icon');
+            const playPauseText = document.getElementById('kirikala-play-pause-text');
+            const progressBar = document.getElementById('kirikala-progress-bar');
+            const timeDisplay = document.getElementById('kirikala-time-display');
+            
+            // Check if event listeners are already added
+            if (!video.hasListeners) {
+                video.addEventListener('loadedmetadata', updateKirikalaTimeDisplay);
+                video.addEventListener('timeupdate', updateKirikalaProgress);
+                video.addEventListener('ended', onKirikalaVideoEnded);
+                video.hasListeners = true;
+            }
+            
+            // Auto-play the video
+            video.play().catch(e => console.log('Autoplay prevented:', e));
+            updateKirikalaPlayPauseButton();
+        }
+
+        // Toggle play/pause for kirikala video
+        function toggleKirikalaPlayPause() {
+            const video = document.getElementById('kirikala-video');
+            if (video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
+            updateKirikalaPlayPauseButton();
+        }
+
+        // Update play/pause button for kirikala video
+        function updateKirikalaPlayPauseButton() {
+            const video = document.getElementById('kirikala-video');
+            const playPauseIcon = document.getElementById('kirikala-play-pause-icon');
+            const playPauseText = document.getElementById('kirikala-play-pause-text');
+            
+            if (video.paused) {
+                playPauseIcon.className = 'fas fa-play';
+                playPauseText.textContent = 'Play';
+            } else {
+                playPauseIcon.className = 'fas fa-pause';
+                playPauseText.textContent = 'Pause';
+            }
+        }
+
+        // Skip forward 10 seconds for kirikala video
+        function kirikalaSkipForward() {
+            const video = document.getElementById('kirikala-video');
+            video.currentTime += 10;
+        }
+
+        // Skip backward 10 seconds for kirikala video
+        function kirikalaSkipBackward() {
+            const video = document.getElementById('kirikala-video');
+            video.currentTime -= 10;
+        }
+
+        // Change kirikala video type
+        function changeKirikalaVideo(videoType) {
+            const videos = {
+                'champagne': {
+                    src: '../images/Video/Champaing/Champaign.mp4',
+                    title: 'Champagne Service'
+                },
+                'kirikala': {
+                    src: '../images/Video/Champaing/kirikala.mp4',
+                    title: 'Kirikala Service'
+                }
+            };
+            
+            const selectedVideo = videos[videoType];
+            if (selectedVideo) {
+                const video = document.getElementById('kirikala-video');
+                const videoSource = document.getElementById('kirikala-video-source');
+                const videoTitle = document.getElementById('kirikala-video-title');
+                
+                const wasPlaying = !video.paused;
+                const currentTime = video.currentTime;
+                
+                videoSource.src = selectedVideo.src;
+                videoTitle.textContent = selectedVideo.title;
+                video.load();
+                
+                if (wasPlaying) {
+                    video.play().catch(e => console.log('Play failed:', e));
+                }
+            }
+        }
+
+        // Update progress bar for kirikala video
+        function updateKirikalaProgress() {
+            const video = document.getElementById('kirikala-video');
+            const progressBar = document.getElementById('kirikala-progress-bar');
+            const progress = (video.currentTime / video.duration) * 100;
+            progressBar.style.width = progress + '%';
+            updateKirikalaTimeDisplay();
+        }
+
+        // Set progress when clicking on progress bar for kirikala video
+        function setKirikalaProgress(e) {
+            const video = document.getElementById('kirikala-video');
+            const progressContainer = e.currentTarget;
+            const rect = progressContainer.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const width = rect.width;
+            const percentage = clickX / width;
+            video.currentTime = percentage * video.duration;
+        }
+
+        // Update time display for kirikala video
+        function updateKirikalaTimeDisplay() {
+            const video = document.getElementById('kirikala-video');
+            const timeDisplay = document.getElementById('kirikala-time-display');
+            const currentTime = formatKirikalaTime(video.currentTime);
+            const duration = formatKirikalaTime(video.duration);
+            timeDisplay.textContent = `${currentTime} / ${duration}`;
+        }
+
+        // Format time in MM:SS for kirikala video
+        function formatKirikalaTime(seconds) {
+            if (isNaN(seconds)) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Handle video end for kirikala video
+        function onKirikalaVideoEnded() {
+            updateKirikalaPlayPauseButton();
+        }
+
+        // Update the showSection function to include kirikala video initialization
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show the requested section
+            const section = document.getElementById(sectionId + '-section');
+            if (section) {
+                section.classList.remove('hidden');
+            }
+            
+            // Update active state in sidebar
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Find the button that triggered this and make it active
+            const activeButton = document.querySelector(`button[onclick="showSection('${sectionId}')`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+            
+            // Special case for packages section
+            if (sectionId === 'packages') {
+                showWeddingPackages();
+            }
+            
+            // Special case for dancing section - initialize video
+            if (sectionId === 'dancing') {
+                initializeDancingVideo();
+            }
+            
+            // Special case for vocal section - initialize video
+            if (sectionId === 'vocal') {
+                initializeVocalVideo();
+            }
+            
+            // Special case for kirikala section - initialize video
+            if (sectionId === 'kirikala') {
+                initializeKirikalaVideo();
+            }
+        }
+
+        // Enhanced keyboard controls to include kirikala video
+        document.addEventListener('keydown', function(e) {
+            // Handle kirikala section
+            if (!document.getElementById('kirikala-section').classList.contains('hidden')) {
+                switch(e.code) {
+                    case 'Space':
+                        e.preventDefault();
+                        toggleKirikalaPlayPause();
+                        break;
+                    case 'ArrowLeft':
+                        e.preventDefault();
+                        kirikalaSkipBackward();
+                        break;
+                    case 'ArrowRight':
+                        e.preventDefault();
+                        kirikalaSkipForward();
+                        break;
+                }
+            }
+            // Handle vocal section
+            else if (!document.getElementById('vocal-section').classList.contains('hidden')) {
+                switch(e.code) {
+                    case 'Space':
+                        e.preventDefault();
+                        toggleVocalPlayPause();
+                        break;
+                    case 'ArrowLeft':
+                        e.preventDefault();
+                        vocalSkipBackward();
+                        break;
+                    case 'ArrowRight':
+                        e.preventDefault();
+                        vocalSkipForward();
+                        break;
+                }
+            }
+            // Handle dancing section
+            else if (!document.getElementById('dancing-section').classList.contains('hidden')) {
+                switch(e.code) {
+                    case 'Space':
+                        e.preventDefault();
+                        toggleDancingPlayPause();
+                        break;
+                    case 'ArrowLeft':
+                        e.preventDefault();
+                        dancingSkipBackward();
+                        break;
+                    case 'ArrowRight':
+                        e.preventDefault();
+                        dancingSkipForward();
+                        break;
+                }
+            }
+        });
+
+        // Buffet Video Functions
+        function initializeBuffetVideo() {
+            const video = document.getElementById('buffet-video');
+            const playPauseIcon = document.getElementById('buffet-play-pause-icon');
+            const playPauseText = document.getElementById('buffet-play-pause-text');
+            const progressBar = document.getElementById('buffet-progress-bar');
+            const timeDisplay = document.getElementById('buffet-time-display');
+            
+            // Check if event listeners are already added
+            if (!video.hasListeners) {
+                video.addEventListener('loadedmetadata', updateBuffetTimeDisplay);
+                video.addEventListener('timeupdate', updateBuffetProgress);
+                video.addEventListener('ended', onBuffetVideoEnded);
+                video.hasListeners = true;
+            }
+            
+            // Auto-play the video
+            video.play().catch(e => console.log('Autoplay prevented:', e));
+            updateBuffetPlayPauseButton();
+        }
+
+        // Toggle play/pause for buffet video
+        function toggleBuffetPlayPause() {
+            const video = document.getElementById('buffet-video');
+            if (video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
+            updateBuffetPlayPauseButton();
+        }
+
+        // Update play/pause button for buffet video
+        function updateBuffetPlayPauseButton() {
+            const video = document.getElementById('buffet-video');
+            const playPauseIcon = document.getElementById('buffet-play-pause-icon');
+            const playPauseText = document.getElementById('buffet-play-pause-text');
+            
+            if (video.paused) {
+                playPauseIcon.className = 'fas fa-play';
+                playPauseText.textContent = 'Play';
+            } else {
+                playPauseIcon.className = 'fas fa-pause';
+                playPauseText.textContent = 'Pause';
+            }
+        }
+
+        // Skip forward 10 seconds for buffet video
+        function buffetSkipForward() {
+            const video = document.getElementById('buffet-video');
+            video.currentTime += 10;
+        }
+
+        // Skip backward 10 seconds for buffet video
+        function buffetSkipBackward() {
+            const video = document.getElementById('buffet-video');
+            video.currentTime -= 10;
+        }
+
+        // Update progress bar for buffet video
+        function updateBuffetProgress() {
+            const video = document.getElementById('buffet-video');
+            const progressBar = document.getElementById('buffet-progress-bar');
+            const progress = (video.currentTime / video.duration) * 100;
+            progressBar.style.width = progress + '%';
+            updateBuffetTimeDisplay();
+        }
+
+        // Set progress when clicking on progress bar for buffet video
+        function setBuffetProgress(e) {
+            const video = document.getElementById('buffet-video');
+            const progressContainer = e.currentTarget;
+            const rect = progressContainer.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const width = rect.width;
+            const percentage = clickX / width;
+            video.currentTime = percentage * video.duration;
+        }
+
+        // Update time display for buffet video
+        function updateBuffetTimeDisplay() {
+            const video = document.getElementById('buffet-video');
+            const timeDisplay = document.getElementById('buffet-time-display');
+            const currentTime = formatBuffetTime(video.currentTime);
+            const duration = formatBuffetTime(video.duration);
+            timeDisplay.textContent = `${currentTime} / ${duration}`;
+        }
+
+        // Format time in MM:SS for buffet video
+        function formatBuffetTime(seconds) {
+            if (isNaN(seconds)) return '0:00';
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Handle video end for buffet video
+        function onBuffetVideoEnded() {
+            updateBuffetPlayPauseButton();
+        }
+
+        // Update the showSection function to include buffet video initialization
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show the requested section
+            const section = document.getElementById(sectionId + '-section');
+            if (section) {
+                section.classList.remove('hidden');
+            }
+            
+            // Update active state in sidebar
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Find the button that triggered this and make it active
+            const activeButton = document.querySelector(`button[onclick="showSection('${sectionId}')`);
+            if (activeButton) {
+                activeButton.classList.add('active');
+            }
+            
+            // Special case for packages section
+            if (sectionId === 'packages') {
+                showWeddingPackages();
+            }
+            
+            // Special case for dancing section - initialize video
+            if (sectionId === 'dancing') {
+                initializeDancingVideo();
+            }
+            
+            // Special case for vocal section - initialize video
+            if (sectionId === 'vocal') {
+                initializeVocalVideo();
+            }
+            
+            // Special case for kirikala section - initialize video
+            if (sectionId === 'kirikala') {
+                initializeKirikalaVideo();
+            }
+            
+            // Special case for buffet section - initialize video
+            if (sectionId === 'buffet') {
+                initializeBuffetVideo();
+            }
+        }
+
+        // Enhanced keyboard controls to include buffet video
+        document.addEventListener('keydown', function(e) {
+            // Handle buffet section
+            if (!document.getElementById('buffet-section').classList.contains('hidden')) {
+                switch(e.code) {
+                    case 'Space':
+                        e.preventDefault();
+                        toggleBuffetPlayPause();
+                        break;
+                    case 'ArrowLeft':
+                        e.preventDefault();
+                        buffetSkipBackward();
+                        break;
+                    case 'ArrowRight':
+                        e.preventDefault();
+                        buffetSkipForward();
+                        break;
+                }
+            }
+            // Handle kirikala section
+            else if (!document.getElementById('kirikala-section').classList.contains('hidden')) {
+                switch(e.code) {
+                    case 'Space':
+                        e.preventDefault();
+                        toggleKirikalaPlayPause();
+                        break;
+                    case 'ArrowLeft':
+                        e.preventDefault();
+                        kirikalaSkipBackward();
+                        break;
+                    case 'ArrowRight':
+                        e.preventDefault();
+                        kirikalaSkipForward();
+                        break;
+                }
+            }
+            // Handle vocal section
+            else if (!document.getElementById('vocal-section').classList.contains('hidden')) {
+                switch(e.code) {
+                    case 'Space':
+                        e.preventDefault();
+                        toggleVocalPlayPause();
+                        break;
+                    case 'ArrowLeft':
+                        e.preventDefault();
+                        vocalSkipBackward();
+                        break;
+                    case 'ArrowRight':
+                        e.preventDefault();
+                        vocalSkipForward();
+                        break;
+                }
+            }
+            // Handle dancing section
+            else if (!document.getElementById('dancing-section').classList.contains('hidden')) {
+                switch(e.code) {
+                    case 'Space':
+                        e.preventDefault();
+                        toggleDancingPlayPause();
+                        break;
+                    case 'ArrowLeft':
+                        e.preventDefault();
+                        dancingSkipBackward();
+                        break;
+                    case 'ArrowRight':
+                        e.preventDefault();
+                        dancingSkipForward();
+                        break;
+                }
+            }
+        });
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
