@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -1016,16 +1017,10 @@
                                         <div id="package-type-container" class="md:col-span-2">
                                             <label class="block text-sm font-medium text-gray-700 mb-2">Package Type</label>
                                             <select id="package-type" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-hotel-lime focus:border-hotel-lime" onchange="handlePackageChange()">
-                                                <option value="3250">Banquet Hall Menu 01 - Rs. 3,250</option>
-                                                <option value="3750">Banquet Hall Menu 02 - Rs. 3,750</option>
-                                                <option value="4250">Banquet Hall Menu 03 - Rs. 4,250</option>
-                                                <option value="4850">Banquet Hall Menu 04 - Rs. 4,850</option>
-                                                <option value="5800">All-Inclusive Package - Rs. 5,800</option>
+                                                <!-- Options will be populated dynamically -->
                                             </select>
                                         </div>
                                     </div>
-                                    
-                                    
                                 </div>
                                 
                                 <div class="bg-white rounded-xl shadow-sm p-6 hover-scale" id="additional-services-section">
@@ -1069,7 +1064,7 @@
                         </div>
                     </div>
                 </div>
-                </div>    
+                </div>  
             </main>
         </div>
     </div>
@@ -1985,6 +1980,15 @@
         { value: '5800', label: 'All-Inclusive Package - Rs. 5,800' }
     ];
 
+    // Party packages
+    const partyPackages = [
+        { value: '1850', label: 'Menu 01 - Rs. 1,850' },
+        { value: '1950', label: 'Menu 02 - Rs. 1,950' },
+        { value: '1950', label: 'Menu 03 - Rs. 1,950' },
+        { value: '2150', label: 'Menu 04 - Rs. 2,150' },
+        { value: '1750', label: 'Menu 05 Party - Rs. 1,750' }
+    ];
+
     // Banquet Hall Special Package pricing
     const specialPackagePricing = {
         // For 150-200 guests
@@ -2003,9 +2007,12 @@
         ]
     };
 
-    // Wedding services
+    // Wedding services - All checkboxes set to false by default
     const weddingServices = [
-        { id: 'decorations', name: 'Decorations', price: 35000, checked: true, category: 'services' },
+        { id: 'decorations_01', name: 'Decorations 01', price: 30000, checked: false, category: 'services' },
+        { id: 'decorations_02', name: 'Decorations 02', price: 35000, checked: false, category: 'services' },
+        { id: 'decorations_03', name: 'Decorations 03', price: 40000, checked: false, category: 'services' },
+        { id: 'decorations_04', name: 'Decorations 04', price: 45000, checked: false, category: 'services' },
         { id: 'cake', name: 'Structured Cake', price: 8000, checked: false, category: 'services' },
         { id: 'kirikala', name: 'Kirikala', price: 7000, checked: false, category: 'services' },
         { id: 'champagne', name: 'Champagne', price: 8000, checked: false, category: 'services' },
@@ -2031,7 +2038,7 @@
         
         // Extra Dishes
         { id: 'soup-veg', name: 'Cream of Vegetable Soup', price: 300, checked: false, hasQuantity: true, category: 'dishes' },
-        { id: 'soup-veg', name: 'Cream of Vegetable Soup with Bun and Butter', price: 550, checked: false, hasQuantity: true, category: 'dishes' },
+        { id: 'soup-veg-bun', name: 'Cream of Vegetable Soup with Bun and Butter', price: 550, checked: false, hasQuantity: true, category: 'dishes' },
         { id: 'rice-basmathi', name: 'Rice (Basmathi)', price: 150, checked: false, hasQuantity: true, category: 'dishes' },
         { id: 'prawns-dish', name: 'Prawns', price: 350, checked: false, hasQuantity: true, category: 'dishes' },
         { id: 'seafood-mix', name: 'Seafood Mix Deviled', price: 400, checked: false, hasQuantity: true, category: 'dishes' },
@@ -2039,13 +2046,27 @@
         { id: 'cuttle-fish', name: 'Cuttle Fish', price: 300, checked: false, hasQuantity: true, category: 'dishes' },
         { id: 'jelly', name: 'Jelly', price: 150, checked: false, hasQuantity: true, category: 'dishes' },
         { id: 'caramel', name: 'Caramel', price: 250, checked: false, hasQuantity: true, category: 'dishes' },
-        { id: 'chocolate-mouse', name: 'Chocolate Mouse', price: 300, checked: false, hasQuantity: true, category: 'dishes' },
+        { id: 'chocolate-mouse', name: 'Chocolate Mousse', price: 300, checked: false, hasQuantity: true, category: 'dishes' },
         { id: 'mashroom', name: 'Mushroom', price: 150, checked: false, hasQuantity: true, category: 'dishes' },
         { id: 'malay-pickle', name: 'Malay Pickle', price: 100, checked: false, hasQuantity: true, category: 'dishes' },
     ];
 
-    // Party services
+    // Party services - All checkboxes set to false by default
     const partyServices = [
+        { id: 'decorations_01', name: 'Decorations 01', price: 30000, checked: false, category: 'services' },
+        { id: 'decorations_02', name: 'Decorations 02', price: 35000, checked: false, category: 'services' },
+        { id: 'decorations_03', name: 'Decorations 03', price: 40000, checked: false, category: 'services' },
+        { id: 'decorations_04', name: 'Decorations 04', price: 45000, checked: false, category: 'services' },
+        { id: 'cake', name: 'Structured Cake', price: 8000, checked: false, category: 'services' },
+        { id: 'kirikala', name: 'Kirikala', price: 7000, checked: false, category: 'services' },
+        { id: 'champagne', name: 'Champagne', price: 8000, checked: false, category: 'services' },
+        { id: 'music-band', name: 'Music Band', price: 17000, checked: false, category: 'services' },
+        { id: 'dj', name: 'DJ', price: 15000, checked: false, category: 'services' },
+        { id: 'wes-dancers', name: 'Wes dancers', price: 17000, checked: false, category: 'services' },
+        { id: 'item-dancers-3', name: 'Item dancers (3 girls)', price: 17000, checked: false, category: 'services' },
+        { id: 'item-dancers-4', name: 'Item dancers (4 girls)', price: 20000, checked: false, category: 'services' },
+        { id: 'outdoor-lighting', name: 'Outdoor lighting', price: 25000, checked: false, category: 'services' },
+        
         // Bites
         { id: 'bites-chicken', name: 'Chicken (1kg)', price: 3200, checked: false, hasQuantity: true, category: 'bites' },
         { id: 'bites-pork', name: 'Pork (1kg)', price: 4000, checked: false, hasQuantity: true, category: 'bites' },
@@ -2066,25 +2087,36 @@
         { id: 'cuttle-fish', name: 'Cuttle Fish', price: 300, checked: false, hasQuantity: true, category: 'dishes' },
         { id: 'jelly', name: 'Jelly', price: 150, checked: false, hasQuantity: true, category: 'dishes' },
         { id: 'caramel', name: 'Caramel', price: 250, checked: false, hasQuantity: true, category: 'dishes' },
-        { id: 'chocolate-mouse', name: 'Chocolate Mouse', price: 300, checked: false, hasQuantity: true, category: 'dishes' },
+        { id: 'chocolate-mouse', name: 'Chocolate Mousse', price: 300, checked: false, hasQuantity: true, category: 'dishes' },
         { id: 'mashroom', name: 'Mushroom', price: 150, checked: false, hasQuantity: true, category: 'dishes' },
         { id: 'malay-pickle', name: 'Malay Pickle', price: 100, checked: false, hasQuantity: true, category: 'dishes' },
         { id: 'cashew', name: 'Cashew', price: 300, checked: false, hasQuantity: true, category: 'dishes' },
+        { id: 'fish-cutlet', name: 'Fish Cutlet', price: 300, checked: false, hasQuantity: true, category: 'dishes' },
+        { id: 'ice-coffee', name: 'Ice Coffee', price: 300, checked: false, hasQuantity: true, category: 'dishes' },
         
         // BBQ
         { id: 'egg-hoppers', name: 'Egg Hoppers', price: 150, checked: false, hasQuantity: true, category: 'bbq' },
         { id: 'plain-hoppers', name: 'Plain Hoppers', price: 70, checked: false, hasQuantity: true, category: 'bbq' },
-        { id: 'veg-kottu', name: 'Veg Kottu', price: 1200, checked: false, category: 'bbq' },
-        { id: 'chicken-kottu', name: 'Chicken Kottu', price: 1500, checked: false, category: 'bbq' },
+        { id: 'veg-kottu', name: 'Veg Kottu', price: 1200, checked: false, hasQuantity: true, category: 'bbq' },
+        { id: 'chicken-kottu', name: 'Chicken Kottu', price: 1500, checked: false, hasQuantity: true, category: 'bbq' },
         { id: 'grilled-chicken', name: 'Marinated Grilled Chicken (1Kg)', price: 3500, checked: false, hasQuantity: true, category: 'bbq' },
         { id: 'grilled-fish', name: 'Marinated Grilled Fish (1Kg)', price: 4000, checked: false, hasQuantity: true, category: 'bbq' },
         { id: 'grilled-pork', name: 'Seasoned Grilled Pork (1Kg)', price: 3800, checked: false, hasQuantity: true, category: 'bbq' },
         { id: 'grilled-sausages', name: 'Seasoned Grilled Sausages (1Kg)', price: 3200, checked: false, hasQuantity: true, category: 'bbq' },
-    ];
+        
+        // New Snack Section
+        { id: 'snack-Egg-Sandwich1', name: 'Egg Sandwich (2 Layer)', price: 200, checked: false, hasQuantity: true, category: 'snacks' },
+        { id: 'snack-Egg-Sandwich2', name: 'Egg Sandwich (3 Layer)', price: 250, checked: false, hasQuantity: true, category: 'snacks' },
+        { id: 'snack-Fish-Roll', name: 'Fish Roll (per piece)', price: 200, checked: false, hasQuantity: true, category: 'snacks' },
+        { id: 'snack-fish-Patties', name: 'Fish Patties (per piece)', price: 150, checked: false, hasQuantity: true, category: 'snacks' },
+        { id: 'snack-Butter-Cake', name: 'Butter Cake (per piece)', price: 100, checked: false, hasQuantity: true, category: 'snacks' },
+        { id: 'snack-Chocolate-Cake', name: 'Chocolate Cake (per piece)', price: 150, checked: false, hasQuantity: true, category: 'snacks' },
+        { id: 'snack-Milk-Tea', name: 'Milk Tea', price: 200, checked: false, hasQuantity: true, category: 'snacks' },
+        ];
 
-    // Halal wedding services
+    // Halal wedding services - All checkboxes set to false by default
     const halalServices = [
-        { id: 'decorations', name: 'Decorations', price: 35000, checked: true, category: 'services' },
+        { id: 'decorations', name: 'Decorations', price: 35000, checked: false, category: 'services' },
         { id: 'outdoor-lighting', name: 'Outdoor lighting', price: 25000, checked: false, category: 'services' },
     ];
 
@@ -2112,8 +2144,73 @@
         // Clear existing options
         packageSelect.innerHTML = '';
         
-        // For non-wedding events, use regular packages only
-        if (eventType !== 'wedding' && eventType !== 'halal') {
+        // For party events, show both party and wedding packages
+        if (eventType === 'party') {
+            // Add party packages
+            partyPackages.forEach(pkg => {
+                const option = document.createElement('option');
+                option.value = pkg.value;
+                option.textContent = pkg.label;
+                option.classList.add('party-package');
+                packageSelect.appendChild(option);
+            });
+            
+            // Add separator
+            const separator = document.createElement('option');
+            separator.disabled = true;
+            separator.textContent = '──────────';
+            packageSelect.appendChild(separator);
+            
+            // Add wedding packages header
+            const header = document.createElement('option');
+            header.disabled = true;
+            header.textContent = 'WEDDING PACKAGES';
+            header.style.fontWeight = 'bold';
+            header.style.color = '#043418';
+            packageSelect.appendChild(header);
+            
+            // Add regular wedding packages
+            populateRegularPackages(packageSelect);
+            
+            // Add special packages if guests > 150
+            if (guests > 150) {
+                // Add separator
+                const separator2 = document.createElement('option');
+                separator2.disabled = true;
+                separator2.textContent = '──────────';
+                packageSelect.appendChild(separator2);
+                
+                // Add special package header
+                const header2 = document.createElement('option');
+                header2.disabled = true;
+                header2.textContent = 'BANQUET HALL SPECIAL PACKAGES';
+                header2.style.fontWeight = 'bold';
+                header2.style.color = '#043418';
+                packageSelect.appendChild(header2);
+                
+                // Add special packages based on guest count
+                let pricingTier;
+                if (guests >= 200) {
+                    pricingTier = specialPackagePricing["200+"];
+                } else {
+                    pricingTier = specialPackagePricing["150-200"];
+                }
+                
+                pricingTier.forEach(pkg => {
+                    const option = document.createElement('option');
+                    option.value = pkg.value;
+                    option.textContent = pkg.label;
+                    option.classList.add('special-package');
+                    packageSelect.appendChild(option);
+                });
+            }
+            
+            // Show hall selection for party events
+            hallContainer.style.display = 'block';
+            populateServices(partyServices, false, true);
+        }
+        // For non-wedding events (except party), use regular packages only
+        else if (eventType !== 'wedding' && eventType !== 'halal') {
             populateRegularPackages(packageSelect);
             handlePackageChange();
             calculatePrice();
@@ -2136,40 +2233,42 @@
             populateServices(halalServices);
         }
         
-        // Add regular packages for wedding events
-        populateRegularPackages(packageSelect);
-        
-        // Add special packages if guests > 150 for wedding events
-        if (guests > 150) {
-            // Add separator
-            const separator = document.createElement('option');
-            separator.disabled = true;
-            separator.textContent = '──────────';
-            packageSelect.appendChild(separator);
+        // Add regular packages for wedding events (not party)
+        if (eventType === 'wedding') {
+            populateRegularPackages(packageSelect);
             
-            // Add special package header
-            const header = document.createElement('option');
-            header.disabled = true;
-            header.textContent = 'BANQUET HALL SPECIAL PACKAGES';
-            header.style.fontWeight = 'bold';
-            header.style.color = '#043418';
-            packageSelect.appendChild(header);
-            
-            // Add special packages based on guest count
-            let pricingTier;
-            if (guests >= 200) {
-                pricingTier = specialPackagePricing["200+"];
-            } else {
-                pricingTier = specialPackagePricing["150-200"];
+            // Add special packages if guests > 150 for wedding events
+            if (guests > 150) {
+                // Add separator
+                const separator = document.createElement('option');
+                separator.disabled = true;
+                separator.textContent = '──────────';
+                packageSelect.appendChild(separator);
+                
+                // Add special package header
+                const header = document.createElement('option');
+                header.disabled = true;
+                header.textContent = 'BANQUET HALL SPECIAL PACKAGES';
+                header.style.fontWeight = 'bold';
+                header.style.color = '#043418';
+                packageSelect.appendChild(header);
+                
+                // Add special packages based on guest count
+                let pricingTier;
+                if (guests >= 200) {
+                    pricingTier = specialPackagePricing["200+"];
+                } else {
+                    pricingTier = specialPackagePricing["150-200"];
+                }
+                
+                pricingTier.forEach(pkg => {
+                    const option = document.createElement('option');
+                    option.value = pkg.value;
+                    option.textContent = pkg.label;
+                    option.classList.add('special-package');
+                    packageSelect.appendChild(option);
+                });
             }
-            
-            pricingTier.forEach(pkg => {
-                const option = document.createElement('option');
-                option.value = pkg.value;
-                option.textContent = pkg.label;
-                option.classList.add('special-package');
-                packageSelect.appendChild(option);
-            });
         }
         
         // Update services based on selection
@@ -2193,16 +2292,17 @@
         const hallContainer = document.getElementById('hall-selection-container');
         
         if (eventType === 'party') {
-            packageSelect.innerHTML = `
-                <option value="">Select Menu</option>
-                <option value="1850">Menu 01 - Rs. 1,850</option>
-                <option value="1950">Menu 02 - Rs. 1,950</option>
-                <option value="1950">Menu 03 - Rs. 1,950</option>
-                <option value="2150">Menu 04 - Rs. 2,150</option>
-                <option value="1750">Menu 05 Party - Rs. 1,750</option>
+            // Reset guest count change handling for party events
+            handleGuestCountChange();
+            hallContainer.style.display = 'block';
+            hallContainer.innerHTML = `
+                <label class="block text-sm font-medium text-gray-700 mb-2">Hall Selection</label>
+                <select id="hall-selection" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-hotel-lime focus:border-hotel-lime" onchange="calculatePrice()">
+                    <option value="prince">Prince Banquet Hall</option>
+                    <option value="angelo">Angelo Banquet Hall</option>
+                    <option value="ru">Ru Banquet Hall</option>
+                </select>
             `;
-            hallContainer.style.display = 'none';
-            populateServices(partyServices, false, true);
         } else if (eventType === 'halal') {
             packageSelect.innerHTML = `<option value="0">Halal Wedding Package</option>`;
             
@@ -2258,6 +2358,7 @@
                 else if (category === 'bites') categoryTitle = 'Bites Selection';
                 else if (category === 'dishes') categoryTitle = 'Extra Dishes';
                 else if (category === 'bbq') categoryTitle = 'BBQ Items';
+                else if (category === 'snacks') categoryTitle = 'Snack Selection';
                 
                 if (categoryTitle) {
                     const titleElement = document.createElement('h4');
@@ -2295,7 +2396,7 @@
         // Create sections for each category
         Object.keys(serviceGroups).forEach(category => {
             // Skip bites and services categories if showOnlyDishes is true
-            if (showOnlyDishes && (category === 'bites' || category === 'services')) return;
+            if (showOnlyDishes && (category === 'bites' || category === 'services' || category === 'snacks')) return;
             
             const categoryDiv = document.createElement('div');
             categoryDiv.className = 'service-category';
@@ -2305,6 +2406,7 @@
             else if (category === 'bites') categoryTitle = 'Bites Selection';
             else if (category === 'dishes') categoryTitle = 'Extra Dishes';
             else if (category === 'bbq') categoryTitle = 'BBQ Items';
+            else if (category === 'snacks') categoryTitle = 'Snack Selection';
             
             if (categoryTitle) {
                 const titleElement = document.createElement('h4');
@@ -2334,6 +2436,7 @@
         const packageSelect = document.getElementById('package-type');
         const selectedOption = packageSelect.options[packageSelect.selectedIndex];
         const isSpecialPackage = selectedOption && selectedOption.classList.contains('special-package');
+        const isPartyPackage = selectedOption && selectedOption.classList.contains('party-package');
         const eventType = document.getElementById('event-type').value;
         const additionalServicesSection = document.getElementById('additional-services-section');
         
@@ -2348,14 +2451,18 @@
             // For special packages, only show extra dishes
             if (isSpecialPackage) {
                 populateServices(weddingServices, true, false);
-            } else {
-                if (eventType === 'party') {
-                    populateServices(partyServices, false, true);
-                } else if (eventType === 'halal') {
-                    populateServices(halalServices, false, false);
-                } else {
-                    populateServices(weddingServices, false, false);
-                }
+            } 
+            // For party packages, show party services
+            else if (isPartyPackage || eventType === 'party') {
+                populateServices(partyServices, false, true);
+            } 
+            // For halal events, show halal services
+            else if (eventType === 'halal') {
+                populateServices(halalServices, false, false);
+            } 
+            // For regular wedding packages, show wedding services
+            else {
+                populateServices(weddingServices, false, false);
             }
         }
         
@@ -2387,13 +2494,24 @@
 
     function getPackageName(packageType, eventType) {
         if (eventType === 'party') {
-            const packages = {
-                '1850': 'Menu 01',
-                '1950': 'Menu 02/03',
-                '2150': 'Menu 04',
-                '1750': 'Menu 05 Party'
-            };
-            return packages[packageType] || 'Party Package';
+            // Check party packages first
+            for (const pkg of partyPackages) {
+                if (pkg.value === packageType) return pkg.label.split(' - ')[0];
+            }
+            
+            // Then check regular packages
+            for (const pkg of regularPackages) {
+                if (pkg.value === packageType) return pkg.label.split(' - ')[0];
+            }
+            
+            // Then check special packages
+            for (const tier of Object.values(specialPackagePricing)) {
+                for (const pkg of tier) {
+                    if (pkg.value === packageType) return pkg.label.split(' - ')[0];
+                }
+            }
+            
+            return 'Party Package';
         } else if (eventType === 'halal') {
             return 'Halal Wedding Package';
         } else {
@@ -3173,19 +3291,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         // Set up initial package options
         handleGuestCountChange();
-    });
+    }); 
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
