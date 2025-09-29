@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery Tab Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #043418 0%, #b6d645 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .tabs {
+            display: flex;
+            background-color: #f0f4f8;
+            border-bottom: 1px solid #e1e8f0;
+        }
+        
+        .tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #64748b;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .tab:hover {
+            background-color: #e2e8f0;
+            color: #475569;
+        }
+        
+        .tab.active {
+            color: #043418;
+            border-bottom: 3px solid #b6d645;
+            background-color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 30px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background-color: white;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .gallery-img-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            background-color: #f8fafc;
+        }
+        
+        .gallery-img {
+            width: 100%;
+            height: auto;
+            max-height: 250px;
+            object-fit: contain;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover .gallery-img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-caption {
+            padding: 15px;
+            text-align: center;
+            background-color: white;
+        }
+        
+        .gallery-caption h3 {
+            margin-bottom: 5px;
+            color: #1e293b;
+        }
+        
+        .gallery-caption p {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+        }
+        
+        .modal-img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+        
+        .modal-close:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: background 0.3s ease;
+        }
+        
+        .modal-nav:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        
+        .modal-prev {
+            left: 20px;
+        }
+        
+        .modal-next {
+            right: 20px;
+        }
+        
+        .modal-caption {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            color: white;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+            font-size: 0.9rem;
+            border-top: 1px solid #e2e8f0;
+            margin-top: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .tabs {
+                flex-wrap: wrap;
+            }
+            
+            .tab {
+                flex: 1;
+                min-width: 120px;
+                text-align: center;
+            }
+            
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .modal-nav {
+                font-size: 30px;
+                width: 40px;
+                height: 40px;
+            }
+            
+            .modal-prev {
+                left: 10px;
+            }
+            
+            .modal-next {
+                right: 10px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+        .beautiful-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        padding: 12px 24px;
+        background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 50px;
+        color: #a3e635;
+        font-size: 14px;
+        font-weight: 500;
+        text-decoration: none;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .beautiful-btn:hover {
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(163, 230, 53, 0.25);
+        border-color: rgba(163, 230, 53, 0.4);
+        }
+
+        .beautiful-btn:active {
+        transform: translateY(0);
+        }
+
+        .btn-content {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        z-index: 2;
+        position: relative;
+        }
+
+        .btn-icon {
+        transition: transform 0.3s ease;
+        }
+
+        .beautiful-btn:hover .btn-icon {
+        transform: translateX(-4px);
+        }
+
+        .btn-glow {
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(163, 230, 53, 0.2), transparent);
+        transition: left 0.7s ease;
+        }
+
+        .beautiful-btn:hover .btn-glow {
+        left: 100%;
+        }
+
+        /* Animation for initial appearance */
+        @keyframes slideInRight {
+        0% {
+            opacity: 0;
+            transform: translateX(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        }
+
+        .beautiful-btn {
+        animation: slideInRight 0.6s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+        <div class="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-hotel-green via-hotel-lime to-hotel-green"></div>
+            <div>
+                <h1>Photo Gallery</h1>
+                <p class="subtitle">Explore our collection of Weddings</p>
+            </div>
+            
+            <div>
+                <a href="Package_5.html" class="beautiful-btn">
+                <span class="btn-content">
+                    <svg class="btn-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Back to Package
+                </span>
+                <div class="btn-glow"></div>
+                </a>
+            </div>
+        </header>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="Entrance">Entrance</div>
+            <div class="tab" data-tab="Poru">Poru</div>
+            <div class="tab" data-tab="oil-lamp">Oil Lamp</div>
+            <div class="tab" data-tab="Settee-back">Settee back</div>
+            <div class="tab" data-tab="Table-Deco">Table Deco</div>
+        </div>
+        
+        <div class="tab-content active" id="Entrance">
+            <div class="gallery">
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/Entrance/1.jpeg" alt="Entrance decoration" class="gallery-img">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/Entrance/2.jpeg" alt="Entrance decoration" class="gallery-img">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/Entrance/4.jpeg" alt="Entrance decoration" class="gallery-img">
+                    </div>
+                </div>
+                
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/Entrance/3.jpeg" alt="Entrance decoration" class="gallery-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="Poru">
+            <div class="gallery">
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/Poru/2.jpeg" alt="Poru ceremony" class="gallery-img">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/Poru/3.jpeg" alt="Poru ceremony" class="gallery-img">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/Poru/4.jpeg" alt="Poru ceremony" class="gallery-img">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/Poru/6.jpeg" alt="Poru ceremony" class="gallery-img">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/Poru/7.jpeg" alt="Poru ceremony" class="gallery-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="oil-lamp">
+            <div class="gallery">
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/Oil lamp/1.jpeg" alt="Lion" class="gallery-img">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/Oil lamp/2.jpeg" alt="Lion" class="gallery-img">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/Oil lamp/3.jpeg" alt="Lion" class="gallery-img">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/Oil lamp/4.jpeg" alt="Lion" class="gallery-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-content" id="Settee-back">
+            <div class="gallery">
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/settee back/2.jpeg" alt="Beach" class="gallery-img">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/settee back/3.jpeg" alt="Beach" class="gallery-img">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/settee back/4.jpeg" alt="Beach" class="gallery-img">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/settee back/5.jpeg" alt="Beach" class="gallery-img">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/settee back/6.jpeg" alt="Beach" class="gallery-img">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/settee back/8.jpeg" alt="Beach" class="gallery-img">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/settee back/9.jpeg" alt="Beach" class="gallery-img">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/settee back/10.jpeg" alt="Beach" class="gallery-img">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/settee back/11.jpeg" alt="Beach" class="gallery-img">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/settee back/12.jpeg" alt="Beach" class="gallery-img">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/settee back/13.jpeg" alt="Beach" class="gallery-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="Table-Deco">
+            <div class="gallery">
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/Table Deco/1.jpeg" alt="Lion" class="gallery-img">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/Table Deco/2.jpeg" alt="Lion" class="gallery-img">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/Table Deco/3.jpeg" alt="Lion" class="gallery-img">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/Table Deco/4.jpeg" alt="Lion" class="gallery-img">
+                    </div>
+                </div>
+                <div class="gallery-item">
+                    <div class="gallery-img-container">
+                        <img src="./img/Table Deco/5.jpeg" alt="Lion" class="gallery-img">
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- Modal for full-size image display -->
+    <div class="modal" id="imageModal">
+        <div class="modal-content">
+            <span class="modal-close" id="modalClose">&times;</span>
+            <span class="modal-nav modal-prev" id="modalPrev">&#10094;</span>
+            <span class="modal-nav modal-next" id="modalNext">&#10095;</span>
+            <img class="modal-img" id="modalImg">
+            <div class="modal-caption" id="modalCaption"></div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabs = document.querySelectorAll('.tab');
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            const modalCaption = document.getElementById('modalCaption');
+            const modalClose = document.getElementById('modalClose');
+            const modalPrev = document.getElementById('modalPrev');
+            const modalNext = document.getElementById('modalNext');
+            
+            let currentImages = [];
+            let currentIndex = 0;
+            
+            // Tab switching functionality
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs and contents
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Image click functionality
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const img = this.querySelector('img');
+                    
+                    // Get all images in the current tab
+                    const activeTab = document.querySelector('.tab-content.active');
+                    currentImages = Array.from(activeTab.querySelectorAll('.gallery-item img'));
+                    currentIndex = currentImages.indexOf(img);
+                    
+                    // Display the clicked image in the modal
+                    modalImg.src = img.src;
+                    modalCaption.innerHTML = img.alt;
+                    modal.classList.add('active');
+                    
+                    // Prevent body scrolling when modal is open
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            
+            // Modal close functionality
+            modalClose.addEventListener('click', function() {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+            
+            // Close modal when clicking outside the image
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // Navigation between images
+            modalPrev.addEventListener('click', function(e) {
+                e.stopPropagation();
+                navigateImages(-1);
+            });
+            
+            modalNext.addEventListener('click', function(e) {
+                e.stopPropagation();
+                navigateImages(1);
+            });
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (modal.classList.contains('active')) {
+                    if (e.key === 'Escape') {
+                        modal.classList.remove('active');
+                        document.body.style.overflow = 'auto';
+                    } else if (e.key === 'ArrowLeft') {
+                        navigateImages(-1);
+                    } else if (e.key === 'ArrowRight') {
+                        navigateImages(1);
+                    }
+                }
+            });
+            
+            function navigateImages(direction) {
+                currentIndex += direction;
+                
+                // Loop around if at the beginning or end
+                if (currentIndex < 0) {
+                    currentIndex = currentImages.length - 1;
+                } else if (currentIndex >= currentImages.length) {
+                    currentIndex = 0;
+                }
+                
+                // Update modal with new image
+                const newImg = currentImages[currentIndex];
+                modalImg.src = newImg.src;
+                
+                // Update caption
+                modalCaption.innerHTML = newImg.alt;
+            }
+        });
+    </script>
+</body>
+</html>
