@@ -273,8 +273,10 @@
             <div class="flex flex-col w-64 gradient-bg text-white">
                 <div class="flex items-center justify-center h-16 px-4 border-b border-hotel-lime/20">
                     <div class="flex items-center space-x-2">
-                        <i class="fas fa-heart text-hotel-lime"></i>
                         <span class="text-xl font-bold">Green Valley Resort</span>
+                        <div class="mt-auto pt-6">
+                            <img src="./images/3.png" > 
+                        </div>
                     </div>
                 </div>
                 <div class="flex flex-col flex-grow px-4 py-6 overflow-y-auto custom-scrollbar">
@@ -284,8 +286,20 @@
                             Home
                         </button>
                         <button onclick="showSection('packages')" class="sidebar-item active flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors hover:bg-hotel-green/50">
-                            <i class="fas fa-box-open mr-3 text-hotel-lime"></i>
+                            <i class="fas fa-window-restore mr-3 text-hotel-lime"></i>
                             Packages
+                        </button>
+                        <button onclick="showSection('Prince')" class="sidebar-item active flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors hover:bg-hotel-green/50">
+                            <i class="fas fa-hotel mr-3 text-hotel-lime"></i>
+                            Prince Banquet Hall
+                        </button>
+                        <button onclick="showSection('Angelo')" class="sidebar-item active flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors hover:bg-hotel-green/50">
+                            <i class="fas fa-hotel mr-3 text-hotel-lime"></i>
+                            Angelo Banquet Hall
+                        </button>
+                        <button onclick="showSection('Ru')" class="sidebar-item active flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors hover:bg-hotel-green/50">
+                            <i class="fas fa-hotel mr-3 text-hotel-lime"></i>
+                            Ru Banquet Hall
                         </button>
                         <button onclick="showSection('dancing')" class="sidebar-item flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors hover:bg-hotel-green/50">
                             <i class="fas fa-music mr-3 text-hotel-lime"></i>
@@ -316,10 +330,10 @@
                             Price Calculator
                         </button>
                     </nav>
-                    
-                    <div class="mt-auto pt-6">
+
+                    <!-- <div class="mt-auto pt-6">
                         <img src="../images/3.png" > 
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -365,7 +379,19 @@
                             </button>
                             <button onclick="showSection('packages'); toggleMobileMenu()" class="sidebar-item active flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors hover:bg-hotel-green/50">
                                 <i class="fas fa-box-open mr-3 text-hotel-lime"></i>
-                                 Wedding Packages
+                                Packages
+                            </button>
+                            <button onclick="showSection('Prince'); toggleMobileMenu()" class="sidebar-item active flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors hover:bg-hotel-green/50">
+                                <i class="fas fa-hotel mr-3 text-hotel-lime"></i>
+                                Prince Banquet Hall
+                            </button>
+                            <button onclick="showSection('Angelo'); toggleMobileMenu()" class="sidebar-item active flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors hover:bg-hotel-green/50">
+                                <i class="fas fa-hotel mr-3 text-hotel-lime"></i>
+                                Angelo Banquet Hall
+                            </button>
+                            <button onclick="showSection('Ru'); toggleMobileMenu()" class="sidebar-item active flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors hover:bg-hotel-green/50">
+                                <i class="fas fa-hotel mr-3 text-hotel-lime"></i>
+                                Ru Banquet Hall
                             </button>
                             <button onclick="showSection('dancing'); toggleMobileMenu()" class="sidebar-item flex items-center w-full px-4 py-3 text-sm font-medium rounded-lg transition-colors hover:bg-hotel-green/50">
                                 <i class="fas fa-music mr-3 text-hotel-lime"></i>
@@ -920,6 +946,33 @@
                     </div>
                 </div>
 
+                <!-- Prince Banquet hall Section -->
+                <div id="Prince-section" class="section hidden animate-fade-in relative h-full">
+                    <div class="vocal-video-title" id="vocal-video-title"></div>
+                    
+                    <div class="video-container">
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/4To7NxB47xg?si=SlIc5fi-n_tO99sL" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <!-- Angelo Banquet hall Section -->
+                <div id="Angelo-section" class="section hidden animate-fade-in relative h-full">
+                    <div class="vocal-video-title" id="vocal-video-title"></div>
+                    
+                    <div class="video-container">
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/NdBvy3zNEEo?si=sUyu84ryI21X1G3g" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                </div>
+
+                <!-- Ru Banquet hall Section -->
+                <div id="Ru-section" class="section hidden animate-fade-in relative h-full">
+                    <div class="vocal-video-title" id="vocal-video-title"></div>
+                    
+                    <div class="video-container">
+                       <iframe width="100%" height="100%" src="https://www.youtube.com/embed/MUL-SyG5cFk?si=g1M5ZA6lCh3dTY52" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
+                </div>
+
                 <!-- Dancing Group Section -->
                 <div id="dancing-section" class="section hidden animate-fade-in relative h-full">
                     <div class="dancing-video-title" id="dancing-video-title"></div>
@@ -964,7 +1017,7 @@
                 <!-- Buffet Section -->
                 <div id="buffet-section" class="section hidden animate-fade-in relative h-full">
                     <div class="video-container">
-                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/qORA0F2YZ_4?si=3Ex6G3DX_3fp1r-i" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/o99Bj8Lel-g?si=mDo9YWJdTceiEp-3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
                 </div>
 
