@@ -2061,6 +2061,19 @@
         ]
     };
 
+    // Party event hall pricing based on guest count
+    const partyHallPricing = {
+        prince: [
+            { min: 1, max: 200, surcharge: 40000 }
+        ],
+        angelo: [
+            { min: 1, max: 150, surcharge: 30000 }
+        ],
+        ru: [
+            { min: 1, max: 75, surcharge: 25000 }
+        ]
+    };
+
     // Wedding services - All checkboxes set to false by default
     const weddingServices = [
         { id: 'decorations_01', name: 'Decorations 01', price: 30000, checked: false, category: 'services' },
@@ -2536,6 +2549,17 @@
         return 0;
     }
 
+    function calculatePartyHallSurcharge(guests, hallSelection) {
+        if (!hallSelection || !guests) return 0;
+        
+        const hallPricing = partyHallPricing[hallSelection];
+        if (!hallPricing) return 0;
+        
+        // Find the appropriate pricing tier based on guest count
+        const tier = hallPricing.find(t => guests >= t.min && guests <= t.max);
+        return tier ? tier.surcharge : 0;
+    }
+
     function getHalalHallPrice(selection) {
         const hall = halalHallPricing.find(h => h.value === selection);
         return hall ? hall.price : 0;
@@ -2652,6 +2676,21 @@
             }
             
             const hallSelection = document.getElementById('hall-selection') ? document.getElementById('hall-selection').value : null;
+            
+            // Party event hall surcharge based on guest count
+            if (eventType === 'party' && hallSelection) {
+                const partySurcharge = calculatePartyHallSurcharge(guests, hallSelection);
+                if (partySurcharge > 0) {
+                    const hall = hallConfig[hallSelection];
+                    breakdown.push({
+                        item: `Small Crowd Surcharge (${hall.name} - Below ${hall.minGuests} guests)`,
+                        quantity: 1,
+                        unitPrice: partySurcharge,
+                        total: partySurcharge
+                    });
+                    total += partySurcharge;
+                }
+            }
             
             // Small crowd surcharge (only for non-party events)
             if (eventType !== 'party' && hallSelection) {
@@ -3346,8 +3385,9 @@
         // Set up initial package options
         handleGuestCountChange();
     }); 
-</script>
+    </script>
 </body>
 </html>
+
 
 
